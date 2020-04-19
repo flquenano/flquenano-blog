@@ -14,6 +14,11 @@ const userSchema = mongoose.Schema({
     required: true,
     validate: [validator.isEmail, "Please enter a valid email"]
   },
+  privilege: {
+    type: String,
+    default: "user",
+    enum: ["user", "moderator", "admin"]
+  },
   account_name: {
     type: String,
     required: [true, "Account Name Required!"]
@@ -37,6 +42,9 @@ const userSchema = mongoose.Schema({
   }
 });
 
+// Add Saved Articles
+//
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 8);
@@ -55,7 +63,7 @@ userSchema.methods.create_reset_token = async function () {
     .update(reset_token)
     .digest("hex");
   this.password_reset_expires = Date.now() + 10 * 60 * 1000; // 10 minutes
-  return resetToken;
+  return reset_token;
 };
 
 userSchema.methods.change_password_after = function (JWTTimestamp) {

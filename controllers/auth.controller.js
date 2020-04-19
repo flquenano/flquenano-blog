@@ -31,8 +31,8 @@ const send_token = (user, status_code, req, res) => {
 
 exports.register = catchAsync(async (req, res, next) => {
   const new_user = await UserModel.create(req.body, function (error, doc) {
-    if (error || !doc) {
-      next(error);
+    if (error || doc === undefined) {
+      return next(error);
     }
     send_token(doc, 201, req, res);
   });
@@ -47,7 +47,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   const user = await UserModel.findOne({ email }).select("+password");
-  if (!user || !(await UserModel.correct_password(password, user.password))) {
+  if (!user || !(await user.correct_password(password, user.password))) {
     return res.status(401).json({
       message: "Incorrect Email or Password"
     });
@@ -93,7 +93,7 @@ exports.forget_password = catchAsync(async (req, res, next) => {
     });
   }
 
-  const token = await UserModel.create_reset_token();
+  const token = await user.create_reset_token();
 
   const reset_token = `${req.protocol}://${req.get(
     "host"
@@ -101,16 +101,18 @@ exports.forget_password = catchAsync(async (req, res, next) => {
   const message = `Forgot Password? Please click:\n ${reset_token} \nto set a new password.
                   \n\nIf you didn't forgot your password, please ignore this email`;
   try {
-    await sendEmail({
+    const email = await send_email({
       email: user.email,
       subject: "Password Reset Token (Valid for 10 Minutes)",
       message
     });
+    user.save();
     res.status(201).json({
       status: "success",
       message: "Email Sent Successfully!"
     });
   } catch (error) {
+    console.log(error);
     user.password_reset_token = undefined;
     user.password_reset_expires = undefined;
     await user.save({ validateBeforeSave: false });
@@ -126,6 +128,9 @@ exports.reset_password = catchAsync(async (req, res, next) => {
    * 2. Find Document based from hash
    * 3. Update Document
    * 4. return new token
+   * {
+   *    "password": "newPassword"
+   * }
    */
 
   const hash = crypto
@@ -147,7 +152,7 @@ exports.reset_password = catchAsync(async (req, res, next) => {
   user.password = req.body.password;
   user.password_reset_token = undefined;
   user.password_reset_expires = undefined;
-  await user.save();
+  //await user.save();
   send_token(user, 201, req, res);
 });
 

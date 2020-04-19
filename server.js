@@ -8,7 +8,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     console.log("Waiting for requests...");
@@ -23,7 +23,6 @@ const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
   console.log(`App runnning at port ${process.env.PORT}`);
-  console.log(process.env);
 });
 
 process.on("uncaughtException", (err) => {

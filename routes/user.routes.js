@@ -13,8 +13,10 @@ const {
 
 router.post("/register", register);
 router.post("/login", login);
-router.post("/forget-password", forget_password);
+router.post("/forgot-password", forget_password);
 router.post("/reset-password/:token", reset_password);
 
 router.post("/update-password", protect, update_password);
 router.post("/deactivate-account", protect, deactivate_account);
+
+module.exports = router;
