@@ -12,6 +12,8 @@ const article_routes = require("./routes/article.routes");
 const Global_error_handler = require("./controllers/error.controller");
 
 app.set("view engine", "html");
+app.use("/uploads/", express.static("uploads")); // to be able to display image
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -12,21 +12,27 @@ const articleSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  user: mongoose.Types.ObjectId,
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "user",
+    required: true
+  },
   comments: [
     {
       user: {
         type: mongoose.Schema.ObjectId,
-        ref: "user"
+        ref: "user",
+        required: true
       },
-      text: String
+      body: String
     }
   ],
   likes: [
     {
       user: {
         type: mongoose.Schema.ObjectId,
-        ref: "user"
+        ref: "user",
+        required: true
       }
     }
   ],
@@ -34,10 +40,16 @@ const articleSchema = mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.ObjectId,
-        ref: "user"
+        ref: "user",
+        required: true
       }
     }
   ],
+  active: {
+    type: Boolean,
+    select: false,
+    default: true
+  },
   date_added: {
     type: Date,
     default: Date.now()
@@ -45,8 +57,14 @@ const articleSchema = mongoose.Schema({
 });
 
 articleSchema.pre(/^find/, function (next) {
-  const query = [{}];
-  this.populate({});
+  const query = [
+    { path: "user", select: "name id" },
+    { path: "comments", select: "name id" },
+    { path: "likes", select: "name id" },
+    { path: "saved", select: "name id" }
+  ];
+  this.populate(query);
+  next();
 });
 
 module.exports = mongoose.model("article", articleSchema);
