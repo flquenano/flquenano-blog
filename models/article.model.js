@@ -56,15 +56,15 @@ const articleSchema = mongoose.Schema({
   }
 });
 
-articleSchema.pre(/^find/, function (next) {
-  const query = [
-    { path: "user", select: "name id" },
-    { path: "comments", select: "name id" },
-    { path: "likes", select: "name id" },
-    { path: "saved", select: "name id" }
-  ];
-  this.populate(query);
-  next();
-});
+// articleSchema.pre(/^find/, function (next) {
+//   const query = [
+//     { path: "user", select: "name id" },
+//     { path: "comments.user", select: "name id" },
+//     { path: "likes.user", select: "name id" },
+//     { path: "saved.user", select: "name id" }
+//   ];
+//   this.populate(query);
+//   next();
+// });
 
 module.exports = mongoose.model("article", articleSchema);

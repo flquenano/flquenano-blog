@@ -14,7 +14,8 @@ const {
   add_comment,
   delete_comment,
   add_util,
-  remove_util
+  remove_util,
+  get_all_util
 } = require("../controllers/article.controller");
 
 router.post("/", protect, uploadFile.single("image_banner"), create_article);
@@ -25,16 +26,22 @@ router
   .patch(protect, uploadFile.single("image_banner"), edit_article)
   .delete(protect, delete_article);
 
-router.post("/:id/comments", protect, add_comment);
+router
+  .route("/:id/comments")
+  .post(protect, add_comment)
+  .get(get_all_util("comments"));
+
 router.delete("/:article/comments/:comment", protect, delete_comment);
 
 router
   .route("/:id/like")
+  .get(get_all_util("likes"))
   .patch(protect, add_util("likes"))
   .delete(protect, remove_util("likes"));
 
 router
   .route("/:id/save")
+  .get(protect, get_all_util("saved"))
   .patch(protect, add_util("saved"))
   .delete(protect, remove_util("saved"));
 

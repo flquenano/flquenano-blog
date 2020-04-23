@@ -149,8 +149,16 @@ exports.add_util = (field) =>
 
 exports.get_all_util = (field) =>
   catchAsync(async (req, res) => {
-    const docs = await ArticleModel.findById(req.params.id, { [field]: 1 });
-    res.status(200).json({ [field]: docs });
+    const fieldId = `${field}.user`;
+    const docs = await ArticleModel.findOne(
+      { _id: req.params.id },
+      { [field]: 1 }
+    ).populate({
+      path: fieldId,
+      select: "name id"
+    });
+    console.log(docs);
+    res.status(200).json({ [field]: docs[field] });
   });
 
 exports.remove_util = (field) =>
