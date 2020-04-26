@@ -1,0 +1,130 @@
+// Styling for the masthead
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #28a745 !default;
+$teal: #0085a1 !default;
+$cyan: #17a2b8 !default;
+
+$primary: $teal !default;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
+
+@mixin background-cover() {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@mixin sans-serif-font() {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@mixin serif-font() {
+  font-family: "Lora", "Times New Roman", serif;
+}
+
+header.masthead {
+  // TIP: Background images are set within the HTML using inline CSS!
+  margin-bottom: 50px;
+  background: no-repeat center center;
+  background-color: $gray-600;
+  background-attachment: scroll;
+  position: relative;
+  @include background-cover;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $gray-900;
+    opacity: 0.5;
+  }
+  .page-heading,
+  .post-heading,
+  .site-heading {
+    padding: 200px 0 150px;
+    color: white;
+    @media only screen and (min-width: 768px) {
+      padding: 200px 0;
+    }
+  }
+  .page-heading,
+  .site-heading {
+    text-align: center;
+    h1 {
+      font-size: 50px;
+      margin-top: 0;
+    }
+    .subheading {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.1;
+      display: block;
+      margin: 10px 0 0;
+      @include sans-serif-font;
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+        font-size: 80px;
+      }
+    }
+  }
+  .post-heading {
+    h1 {
+      font-size: 35px;
+    }
+    .meta,
+    .subheading {
+      line-height: 1.1;
+      display: block;
+    }
+    .subheading {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 10px 0 30px;
+      @include sans-serif-font;
+    }
+    .meta {
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      @include serif-font;
+      a {
+        color: $white;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+        font-size: 55px;
+      }
+      .subheading {
+        font-size: 30px;
+      }
+    }
+  }
+}
