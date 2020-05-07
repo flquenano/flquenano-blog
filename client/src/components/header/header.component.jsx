@@ -4,7 +4,7 @@ import "./header.scss";
 
 const HeaderComponent = () => {
   const bgImg = {
-    backgroundImage: "url('http://localhost:5000/uploads/banner/about-bg.jpg')"
+    backgroundImage: "url('http://localhost:5000/uploads/banner/home-bg.jpg')"
   };
   return (
     <>

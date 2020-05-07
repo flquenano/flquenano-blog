@@ -1,85 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./navigation.scss";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   let MinWidth = 992;
   let previousTop = 0;
+
+  const [cssClasses, setCssClasses] = useState({
+    isVisible: true,
+    isFixed: true
+  });
+
   useEffect(() => {
     window.addEventListener("scroll", scrollListener); // eslint-disable-next-line
   }, []);
 
   const scrollListener = function () {
-    // console.log({
-    //   width: window.innerWidth,
-    //   height: window.innerHeight,
-    //   top: window.scrollY
-    // });
-
-    const headerHeight = window.innerHeight;
+    const headerHeight = document.getElementById("mainNav").offsetHeight;
     let currentTop = window.scrollY;
 
     if (MinWidth < window.innerWidth) {
       //check if user is scrolling up
       if (currentTop < previousTop) {
-        console.log("Scrolli Up");
+        console.log("Scroll Up");
         //if scrolling up...
-        if (
-          currentTop > 0 &&
-          document.getElementById("mainNav").classList.contains("is-fixed")
-        ) {
-          document.getElementById("mainNav").classList.add("is-visible");
+        if (currentTop > 0 && cssClasses.isFixed) {
+          setCssClasses({
+            ...cssClasses,
+            isVisible: true
+          });
         } else {
-          document
-            .getElementById("mainNav")
-            .classList.remove("is-visible", "is-fixed");
+          setCssClasses({
+            isVisible: false,
+            isFixed: false
+          });
         }
       } else if (currentTop > previousTop) {
-        //if scrolling down...
-        document.getElementById("mainNav").classList.remove("is-visible");
-
-        if (
-          currentTop > headerHeight &&
-          !document.getElementById("mainNav").classList.contains("is-fixed")
-        ) {
-          console.log({ currentTop, headerHeight });
-          document.getElementById("mainNav").classList.add("is-fixed");
+        setCssClasses({
+          ...cssClasses,
+          isVisible: false
+        });
+        if (currentTop > headerHeight && !cssClasses.isFixed) {
+          setCssClasses({
+            ...cssClasses,
+            isFixed: true
+          });
         }
       }
       previousTop = currentTop;
     }
   };
-  // Show the navbar when the page is scrolled up
-  // var MQL = 992;
-
-  //primary navigation slide-in effect
-  // if ($(window).width() > MQL) {
-  //   var headerHeight = $("#mainNav").height();
-  //   $(window).on(
-  //     "scroll",
-  //     {
-  //       previousTop: 0
-  //     },
-  //     function () {
-  //       var currentTop = $(window).scrollTop();
-  //       //check if user is scrolling up
-  //       if (currentTop < this.previousTop) {
-  //         //if scrolling up...
-  //         if (currentTop > 0 && $("#mainNav").hasClass("is-fixed")) {
-  //           $("#mainNav").addClass("is-visible");
-  //         } else {
-  //           $("#mainNav").removeClass("is-visible is-fixed");
-  //         }
-  //       } else if (currentTop > this.previousTop) {
-  //         //if scrolling down...
-  //         $("#mainNav").removeClass("is-visible");
-  //         if (currentTop > headerHeight && !$("#mainNav").hasClass("is-fixed"))
-  //           $("#mainNav").addClass("is-fixed");
-  //       }
-  //       this.previousTop = currentTop;
-  //     }
-  //   );
-  // }
 
   return (
     <>
@@ -89,20 +60,36 @@ const NavigationBar = () => {
         variant="light"
         id="mainNav"
         fixed="top"
+        className={` ${cssClasses.isFixed ? "is-fixed" : ""} ${
+          cssClasses.isVisible ? "is-visible" : ""
+        } bottom-shadow`}
       >
         <Container>
-          <Navbar.Brand className="navbar-brand">FLQuenano</Navbar.Brand>
           <Navbar.Toggle
             className="navbar-toggler navbar-toggler-right"
             aria-controls="responsive-navbar-nav"
           />
           <Navbar.Collapse
-            className="justify-content-end navbar-nav"
+            className="justify-content-center navbar-nav"
             id="navbarResponsive"
           >
-            <Nav.Link className="nav-item nav-link">Home</Nav.Link>
-            <Nav.Link className="nav-item nav-link">Projects</Nav.Link>
-            <Nav.Link className="nav-item nav-link">Blog</Nav.Link>
+            <Nav.Link as={Link} to="/" className="nav-item nav-link">
+              Home
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/article/create"
+              className="nav-item nav-link"
+            >
+              Projects
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/article/5eb34f134c644850943ee6c9"
+              className="nav-item nav-link"
+            >
+              Blog
+            </Nav.Link>
           </Navbar.Collapse>
         </Container>
       </Navbar>

@@ -4,18 +4,18 @@ import "./_content-item.scss";
 
 const ContentItem = ({ link, title, subTitle, postMeta }) => (
   <>
-    <div class="post-preview">
+    <div className="post-preview">
       <Link to="/post/:id">
-        <h2 class="post-title">
+        <h2 className="post-title">
           Man must explore, and this is exploration at its greatest
         </h2>
-        <h3 class="post-subtitle">
+        <h3 className="post-subtitle">
           Problems look mighty small from 150 miles up
         </h3>
       </Link>
-      <p class="post-meta">
+      <p className="post-meta">
         Posted by
-        <Link> Start Bootstrap </Link>
+        <Link to="/test"> Start Bootstrap </Link>
         on September 24, 2019
       </p>
     </div>

@@ -5,11 +5,14 @@ const { upload } = require("../utils/multer.util");
 
 exports.create_article = catchAsync(async (req, res) => {
   const article = {
-    ...req.body,
+    title: req.body.title,
+    content: req.body.content,
     image_banner: req.file.filename,
     user: req.user.id
   };
-
+  // console.log(req.body);
+  // console.log(req.file);
+  // console.log(req.user);
   const doc = await ArticleModel.create(article);
 
   if (!doc) {
@@ -17,7 +20,6 @@ exports.create_article = catchAsync(async (req, res) => {
       message: "Failed to create Article!"
     });
   }
-
   res.status(201).json({
     status: "success",
     id: doc.id
@@ -25,6 +27,7 @@ exports.create_article = catchAsync(async (req, res) => {
 });
 
 exports.get_article = catchAsync(async (req, res) => {
+  console.log(req.params.id);
   const doc = await ArticleModel.findById(req.params.id);
   res.status(200).json(doc);
 });

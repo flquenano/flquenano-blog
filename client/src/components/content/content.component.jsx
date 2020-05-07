@@ -29,8 +29,9 @@ const Content = () => {
     <Container>
       <Row>
         <Col lg={8} md={10} className="mx-auto">
-          {posts.map((post) => (
+          {posts.map((post, idx) => (
             <ContentItem
+              key={idx}
               link={post.link}
               title={post.title}
               subTitle={post.subTitle}
