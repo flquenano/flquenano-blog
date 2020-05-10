@@ -2,10 +2,11 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "./header.scss";
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ url, title, subTitle }) => {
   const bgImg = {
-    backgroundImage: "url('http://localhost:5000/uploads/banner/home-bg.jpg')"
+    backgroundImage: `url("http://localhost:5000/uploads/${url}")`
   };
+  console.log(`url("http://localhost:5000/uploads/${url}")`);
   return (
     <>
       <header className="masthead" style={bgImg}>
@@ -14,8 +15,8 @@ const HeaderComponent = () => {
           <Row>
             <Col lg={8} md={10} className="mx-auto">
               <div className="page-heading">
-                <h1>About Me</h1>
-                <span className="subheading">This is what I do.</span>
+                <h1>{title}</h1>
+                <span className="subheading">{subTitle}</span>
               </div>
             </Col>
           </Row>
@@ -26,3 +27,7 @@ const HeaderComponent = () => {
 };
 
 export default HeaderComponent;
+
+/*
+/article/5eb3b11ab34ec53db49af445
+*/

@@ -52,6 +52,11 @@ const NavigationBar = () => {
     }
   };
 
+  const navItems = [
+    { nav: "Home", link: "/" },
+    { nav: "Projects", link: "/dashboard" },
+    { nav: "Blog", link: "/Blog" }
+  ];
   return (
     <>
       <Navbar
@@ -73,23 +78,16 @@ const NavigationBar = () => {
             className="justify-content-center navbar-nav"
             id="navbarResponsive"
           >
-            <Nav.Link as={Link} to="/" className="nav-item nav-link">
-              Home
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/article/create"
-              className="nav-item nav-link"
-            >
-              Projects
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/article/5eb34f134c644850943ee6c9"
-              className="nav-item nav-link"
-            >
-              Blog
-            </Nav.Link>
+            {navItems.map((item, idx) => (
+              <Nav.Link
+                key={idx}
+                as={Link}
+                to={item.link}
+                className="nav-item nav-link"
+              >
+                {item.nav}
+              </Nav.Link>
+            ))}
           </Navbar.Collapse>
         </Container>
       </Navbar>

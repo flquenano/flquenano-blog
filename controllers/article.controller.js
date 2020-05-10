@@ -1,7 +1,7 @@
 const ArticleModel = require("../models/article.model");
 const catchAsync = require("../utils/catchAsync.util");
-
 const { upload } = require("../utils/multer.util");
+const APIFeatures = require("../utils/apiFeatures.util");
 
 exports.create_article = catchAsync(async (req, res) => {
   const article = {
@@ -33,15 +33,43 @@ exports.get_article = catchAsync(async (req, res) => {
 });
 
 exports.get_article_list = catchAsync(async (req, res) => {
-  const docs = await ArticleModel.find({});
+  // const docs = await ArticleModel.find(
+  //   { active: true },
+  //   { id: 1, title: 1, subtitle: 1, user: 1, date_added: 1 }
+  // ).populate({
+  //   path: "user",
+  //   select: "name"
+  // });
+  const features = new APIFeatures(
+    ArticleModel.find(
+      { active: true },
+      { id: 1, title: 1, subtitle: 1, user: 1, date_added: 1 }
+    ).populate({
+      path: "user",
+      select: "name"
+    }),
+    req.query
+  ).paginate();
+  const docs = await features.query;
+  console.log(docs);
+  console.log(req.query);
+  res.status(200).json({
+    status: "success",
+    data: {
+      articles: docs
+    }
+  });
 });
 
 exports.edit_article = catchAsync(async (req, res) => {
-  if (req.file) {
+  if (req.file !== undefined) {
+    console.log("1");
     req.body = {
       ...req.body,
       image_banner: req.file.filename
     };
+  } else {
+    delete req.body.image_banner;
   }
 
   const doc = await ArticleModel.findByIdAndUpdate(

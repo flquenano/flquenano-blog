@@ -9,6 +9,7 @@ const uploadFile = upload("./uploads/banner", 1024 * 1024 * 2); // 2MB
 const {
   create_article,
   get_article,
+  get_article_list,
   edit_article,
   delete_article,
   add_comment,
@@ -18,7 +19,10 @@ const {
   get_all_util
 } = require("../controllers/article.controller");
 
-router.post("/", protect, uploadFile.single("image_banner"), create_article);
+router
+  .route("/")
+  .get(get_article_list)
+  .post(protect, uploadFile.single("image_banner"), create_article);
 
 router
   .route("/:id")

@@ -1,6 +1,8 @@
 // Styling for the footer
+
 footer {
   padding: 0px 0 30px;
+  margin-top: auto;
   .list-inline {
     margin: 0;
     padding: 0;
@@ -13,5 +15,21 @@ footer {
   .list-inline-item {
     padding: 10px 20px;
     margin-bottom: 20px;
+  }
+
+  .list-inline-item:hover {
+    cursor: pointer;
+  }
+
+  .link-icon {
+    color: #0085a1;
+    &:hover,
+    &:focus,
+    &:active {
+      -webkit-transition: all 0.2s;
+      -moz-transition: all 0.2s;
+      transition: all 0.2s;
+      color: darken($color: #0085a1, $amount: 7.5);
+    }
   }
 }

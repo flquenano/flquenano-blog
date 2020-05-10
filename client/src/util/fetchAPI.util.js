@@ -59,8 +59,8 @@ const objToQueryString = (obj) =>
 const get = (url, secured) => request(url, secured);
 const create = (url, secured, data, params) =>
   request(url, secured, data, "POST", params);
-const patch = (url, params) => request(url, params, "PATCH", true);
-const remove = (url, params) => request(url, params, "DELETE", true);
+const patch = (url, secured, data) => request(url, secured, data, "PATCH");
+const remove = (url) => request(url, "DELETE");
 
 export default {
   get,

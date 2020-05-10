@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
@@ -7,12 +8,13 @@ import API from "../../util/fetchAPI.util";
 import Editor from "../editor/editor.component";
 
 import "./add-post.css";
-
+import "./add-post.scss";
 const AddPost = () => {
+  const history = useHistory();
   const [form, setForm] = useState({
-    title: "",
+    title: "My One and Only",
+    subtitle: "A Poem dedicated to the person that colored my world",
     content: "",
-    tags: [],
     img: ""
   });
   const [editorState, setEditorState] = useState(
@@ -43,77 +45,79 @@ const AddPost = () => {
         convertToRaw(editorState.getCurrentContent())
       );
       data.append("title", form.title);
+      data.append("subtitle", form.subtitle);
       data.append("image_banner", form.img);
       data.append("content", editorJSON);
-
       const res = await API.create("/article", true, data);
-      console.log(res);
+      history.push(`/article/${res.id}`);
+      //Redirect to /article/:id
     } catch (e) {
       console.log(e);
     }
-
-    // const blocks = convertToRaw(editorState.getCurrentContent()).blocks;
-    // const value = blocks
-    //   .map((block) => (!block.text.trim() && "\n") || block.text)
-    //   .join("\n");
-    // const html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    // const draft = htmlToDraft(html);
-    // console.log(JSON.stringify(convertFromHTML(html), null, 4));
   };
 
   return (
-    <Container style={{ top: "200px" }}>
-      <Row>
-        <Col lg={8} md={10} className="mx-auto">
-          <Form>
-            <Form.Group controlId="post_title" style={{ margin: "30px 0px" }}>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Title"
-                onChange={userInput}
-                name="title"
-              />
-            </Form.Group>
-            <Form.Group controlId="post_content">
-              <Editor
-                editorState={editorState}
-                editorStateChange={setEditorState}
-              />
-              {/* <textarea
-                disabled
-                value={draftToHtml(
-                  convertToRaw(editorState.getCurrentContent())
-                )}
-                style={{ width: "100%", height: "300px" }}
-              /> */}
-            </Form.Group>
-            <Form.Group style={{ margin: "30px 0px" }}>
-              <Form.File
-                id="custom-file"
-                label="Image Banner"
-                custom
-                onChange={fileInput}
-                name="img"
-              />
-              <Form.Text className="text-muted">
-                Suggested size for the banner image is 1366 x 768 and Maximum
-                size of 2MB
-              </Form.Text>
-            </Form.Group>
+    <>
+      <div
+        style={{ width: "100%", height: "50px", backgroundColor: "#0085a1" }}
+      ></div>
+      <Container>
+        <Row className="add-post">
+          <Col lg={8} md={10} className="mx-auto">
+            <Form>
+              <Form.Group controlId="post_title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Title"
+                  onChange={userInput}
+                  name="title"
+                  value={form.title}
+                />
+              </Form.Group>
+              <Form.Group controlId="post_subtitle">
+                <Form.Label>Sub Title:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter subtitle"
+                  onChange={userInput}
+                  name="subtitle"
+                  value={form.subtitle}
+                />
+                <Form.Text className="text-muted">
+                  Text smaller and below the title
+                </Form.Text>
+              </Form.Group>
+              <Form.Group controlId="post_content">
+                <Editor
+                  editorState={editorState}
+                  editorStateChange={setEditorState}
+                />
+              </Form.Group>
+              <Form.Group style={{ margin: "30px 0px" }}>
+                <Form.File
+                  id="custom-file"
+                  label="Image Banner"
+                  custom
+                  onChange={fileInput}
+                  name="img"
+                />
+                <Form.Text className="text-muted">
+                  Suggested size for the banner image is 1366 x 768 and Maximum
+                  size of 2MB
+                </Form.Text>
+              </Form.Group>
 
-            <Form.Group>
-              <Button
-                style={{ float: "right", marginTop: "20px" }}
-                onClick={submit}
-              >
-                Submit
-              </Button>
-            </Form.Group>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+              <Form.Group className="form-sbmit">
+                <Button style={{ float: "right" }} onClick={submit}>
+                  Submit
+                </Button>
+              </Form.Group>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

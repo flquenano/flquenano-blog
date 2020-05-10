@@ -55,6 +55,7 @@ $dark: $gray-800 !default;
   .navbar-nav {
     > .nav-item {
       font-size: 12px;
+      padding: 12px 20px;
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -65,7 +66,7 @@ $dark: $gray-800 !default;
     background: transparent;
     .navbar-nav {
       > .nav-item {
-        padding: 10px 20px;
+        padding: 12px 20px;
         color: $white;
         &:focus,
         &:hover {
@@ -88,7 +89,7 @@ $dark: $gray-800 !default;
     &.is-fixed {
       /* when the user scrolls down, we hide the header right above the viewport */
       position: fixed;
-      top: -67px;
+      top: -60px;
       -webkit-transition: -webkit-transform 0.2s;
       -moz-transition: -moz-transform 0.2s;
       transition: transform 0.2s;

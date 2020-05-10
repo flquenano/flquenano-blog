@@ -5,6 +5,7 @@ const articleSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  subtitle: String,
   image_banner: {
     type: String
   },
