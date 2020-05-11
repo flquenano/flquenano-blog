@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useForm } from "../../../hooks/form.hook.jsx";
 import {
   Container,
   Row,
@@ -15,27 +16,20 @@ import "./login.scss";
 const LoginComponent = () => {
   const [loader, setLoader] = useState(false);
 
-  const [credentials, setCredentials] = useState({
+  const { values, handleChange } = useForm({
     email: "flcq27@gmail.com",
     password: "flcq0727"
   });
 
-  const userInput = (e) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value
-    });
-  };
-
   const signIn = async () => {
     setLoader(true);
-    const res = await emailSignIn(credentials);
-    setLoader(false);
+    const res = await emailSignIn(values);
     if (res.status) {
       alert("Login Successful!");
     } else {
       alert("Login Failed");
     }
+    setLoader(false);
   };
 
   const spinner = () => (
@@ -52,16 +46,18 @@ const LoginComponent = () => {
           <Form.Control
             type="email"
             placeholder="Email"
-            value={credentials.email}
-            onChange={userInput}
+            value={values.email || ""}
+            onChange={handleChange}
+            name="email"
           />
         </Form.Group>
         <Form.Group controlId="user_password">
           <Form.Control
             type="password"
             placeholder="Password"
-            value={credentials.password}
-            onChange={userInput}
+            value={values.password || ""}
+            onChange={handleChange}
+            name="password"
           />
         </Form.Group>
         <Button className="btn-block login-btn" onClick={signIn}>

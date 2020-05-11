@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
@@ -13,7 +13,8 @@ import "./add-post.scss";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const AddPost = () => {
   const history = useHistory();
-  const { id } = useParams();
+  const location = useLocation();
+  const id = location.state.id;
 
   const [form, setForm] = useState({
     title: "",
@@ -70,7 +71,10 @@ const AddPost = () => {
       data.append("image_banner", form.img);
       data.append("content", editorJSON);
       const res = await API.patch(`/article/${id}`, true, data);
-      history.push(`/article/${res._id}`);
+      history.push({
+        pathname: `/article/${res.title.replace(/\s/g, "-")}`,
+        state: { id: res._id }
+      });
       // history.push(`/article/${res.id}`);
       //Redirect to /article/:id
     } catch (e) {

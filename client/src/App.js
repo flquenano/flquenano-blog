@@ -11,6 +11,7 @@ import AddPost from "./components/add-post/add-post.component";
 import Login from "./components/user/login/login.component";
 import Article from "./components/post/post.component";
 import Dashboard from "./components/dashboard/dashboard.component";
+import { NotFound } from "./pages/404/notFound.page";
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
         <Route exact path="/dashboard">
           <Dashboard />
         </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="*" component={NotFound} />
       </Switch>
       {/* <Header /> */}
       {/* <AddPost /> */}

@@ -2,7 +2,7 @@ const ArticleModel = require("../models/article.model");
 const catchAsync = require("../utils/catchAsync.util");
 const { upload } = require("../utils/multer.util");
 const APIFeatures = require("../utils/apiFeatures.util");
-
+const handler = require("./handler.controller");
 exports.create_article = catchAsync(async (req, res) => {
   const article = {
     title: req.body.title,
@@ -33,13 +33,6 @@ exports.get_article = catchAsync(async (req, res) => {
 });
 
 exports.get_article_list = catchAsync(async (req, res) => {
-  // const docs = await ArticleModel.find(
-  //   { active: true },
-  //   { id: 1, title: 1, subtitle: 1, user: 1, date_added: 1 }
-  // ).populate({
-  //   path: "user",
-  //   select: "name"
-  // });
   const features = new APIFeatures(
     ArticleModel.find(
       { active: true },
@@ -57,6 +50,17 @@ exports.get_article_list = catchAsync(async (req, res) => {
     status: "success",
     data: {
       articles: docs
+    }
+  });
+});
+
+exports.get_my_articles = catchAsync(async (req, res) => {
+  const doc_cnt = await ArticleModel.count({ user: req.user.id, active: true });
+  console.log(doc_cnt);
+  res.status(200).json({
+    status: "success",
+    data: {
+      count: doc_cnt
     }
   });
 });

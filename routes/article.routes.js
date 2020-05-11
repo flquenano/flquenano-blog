@@ -16,8 +16,11 @@ const {
   delete_comment,
   add_util,
   remove_util,
-  get_all_util
+  get_all_util,
+  get_my_articles
 } = require("../controllers/article.controller");
+
+router.get("/get_cnt", protect, get_my_articles);
 
 router
   .route("/")
