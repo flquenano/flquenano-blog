@@ -54,7 +54,7 @@ const NavigationBar = () => {
 
   const navItems = [
     { nav: "Home", link: "/" },
-    { nav: "Projects", link: "/dashboard" },
+    { nav: "Dashboard", link: "/dashboard" },
     { nav: "Blog", link: "/Blog" }
   ];
   return (

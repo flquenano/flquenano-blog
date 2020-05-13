@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const FooterItem = ({ icon, link }) => (
   <li className="list-inline-item">
-    <Link to={link} target="_blank" className="link-icon">
+    <a href={link} target="_blank" className="link-icon">
       <FontAwesomeIcon icon={icon} size="3x" />
-    </Link>
+    </a>
   </li>
 );
 

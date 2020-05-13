@@ -1,61 +1,79 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Table,
-  Button,
-  ButtonGroup,
-  Form
-} from "react-bootstrap";
-import moment from "moment";
-import { faCog, faTimesCircle, faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+import THead from "./table/th.component";
+import TData from "./table/td.component";
+
 import API from "../../util/fetchAPI.util";
 import Spinner from "../spinner/spinner.component";
-import "./dashboard.scss";
-const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const [articles, setArticles] = useState({});
-  const [articleCnt, setArticleCnt] = useState(1);
-  const [active, setActive] = useState(1);
+import { NavBackground } from "../navigation/nav.background";
 
-  const icons = [faEye, faCog, faTimesCircle];
+import "./dashboard.scss";
+
+const Dashboard = () => {
+  const swal = withReactContent(Swal);
+  const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [delPost, setDeletePost] = useState(1);
+  const [posts, setPosts] = useState({});
+  const theadLabels = ["Title", "Date Added", "Options"];
 
   useEffect(() => {
+    setLoading(true);
     const getAll = async () => {
-      const res = await API.get(`/article?page=${articleCnt}`, false);
-      setArticles(res.data.articles);
+      const res = await API.get(`/posts`, true);
+      setPosts(res.data.posts);
       setLoading(false);
     };
     getAll();
-  }, []);
+  }, [delPost, title]);
 
-  useEffect(() => {
-    console.log("only run when active change");
-  }, [active]);
+  const deletePost = (id, title) => {
+    swal
+      .fire({
+        title: "Delete Post?",
+        icon: "warning",
+        text: `Title: ${title}`,
+        showCancelButton: true,
+        cancelButtonColor: "#dc3545",
+        confirmButtonColor: "#28a745",
+        confirmButtonText: "Yes, delete it!"
+      })
+      .then((result) => {
+        if (result.value) {
+          const deletePost = async () => {
+            const res = await API.remove(`/posts/${id}`, true);
+            if (res.status === "success") {
+              setDeletePost(delPost + 1);
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            } else {
+              Swal.fire(
+                "Post not Deleted!",
+                "Your file has not been deleted.",
+                "error"
+              );
+            }
+          };
+          deletePost();
+        }
+      });
+  };
 
   return (
     <>
+      <NavBackground />
       {loading ? (
         <Spinner />
       ) : (
-        <Container className="dashboard" style={{ minHeight: "78vh" }}>
+        <Container className="dashboard" style={{ minHeight: "70vh" }}>
           <br />
           <br />
-          <br />
-          <br />
-          <br />
+
           <Row>
             <Col>
-              <Form.Group controlId="post_title">
-                <Form.Control
-                  type="text"
-                  placeholder="Search Title"
-                  name="title"
-                />
-              </Form.Group>
               <div
                 style={{
                   minHeight: "400px",
@@ -64,103 +82,38 @@ const Dashboard = () => {
                   overflow: "auto"
                 }}
               >
-                <Table bordered striped>
+                <Table
+                  bordered
+                  striped
+                  style={{
+                    height: "400px"
+                  }}
+                >
                   <thead>
-                    <tr as={Row} style={{}}>
-                      <th
-                        as={Col}
-                        md={7}
-                        style={{
-                          position: "sticky",
-                          top: "0",
-                          background: "#fff"
-                        }}
-                      >
-                        Title
-                      </th>
-                      <th
-                        as={Col}
-                        md={3}
-                        style={{
-                          position: "sticky",
-                          top: "0",
-                          background: "#fff"
-                        }}
-                      >
-                        Date Added
-                      </th>
-                      <th
-                        as={Col}
-                        md={2}
-                        style={{
-                          position: "sticky",
-                          top: "0",
-                          background: "#fff",
-                          zIndex: "999"
-                        }}
-                      >
-                        Options
-                      </th>
+                    <tr as={Row}>
+                      {theadLabels.map((th, idx) => (
+                        <THead key={idx} content={th} />
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {articles.map((article, idx) => (
-                      <tr key={idx}>
-                        <td>{article.title}</td>
-                        <td>
-                          {moment(new Date(article.date_added)).format(
-                            "MMMM Do, YYYY"
-                          )}
-                        </td>
-                        <td>
-                          <ButtonGroup aria-label="Basic example" size="sm">
-                            <Button
-                              variant="primary"
-                              style={{ marginLeft: "2px" }}
-                            >
-                              <Link
-                                to={{
-                                  pathname: `article/${article.title.replace(
-                                    /\s/g,
-                                    "-"
-                                  )}`,
-                                  state: { id: article._id }
-                                }}
-                              >
-                                <FontAwesomeIcon icon={faEye} size="lg" />
-                              </Link>
-                            </Button>
-
-                            <Button
-                              variant="primary"
-                              style={{ marginLeft: "2px" }}
-                            >
-                              <Link
-                                to={{
-                                  pathname: `article/edit/${article.title.replace(
-                                    /\s/g,
-                                    "-"
-                                  )}`,
-                                  state: { id: article._id }
-                                }}
-                              >
-                                <FontAwesomeIcon icon={faCog} size="lg" />
-                              </Link>
-                            </Button>
-
-                            <Button
-                              variant="primary"
-                              style={{ marginLeft: "2px" }}
-                            >
-                              <FontAwesomeIcon icon={faTimesCircle} size="lg" />
-                            </Button>
-                          </ButtonGroup>
-                        </td>
-                      </tr>
-                    ))}
+                    {posts.map((post, idx) => {
+                      console.log(post);
+                      return (
+                        <TData key={idx} post={post} remove={deletePost} />
+                      );
+                    })}
                   </tbody>
                 </Table>
               </div>
+
+              <Button
+                as={Link}
+                to="/posts/create"
+                style={{ float: "left", margin: "2rem 0" }}
+              >
+                Add posts
+              </Button>
             </Col>
           </Row>
         </Container>

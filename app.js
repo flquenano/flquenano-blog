@@ -7,7 +7,7 @@ const app = express();
 
 //Routes
 const user_routes = require("./routes/user.routes");
-const article_routes = require("./routes/article.routes");
+const post_routes = require("./routes/post.routes");
 const upload_routes = require("./routes/uploads.route");
 //Error Handler
 const Global_error_handler = require("./controllers/error.controller");
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(process.env.URL_BASE + "/user", user_routes);
-app.use(process.env.URL_BASE + "/article", article_routes);
+app.use(process.env.URL_BASE + "/posts", post_routes);
 app.use(process.env.URL_BASE + "/upload", upload_routes);
 app.all("*", (req, res, next) => {
   res.status(404).send(`Can't Find ${req.originalUrl} on this server`);

@@ -3,24 +3,21 @@ import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
-import API from "../../util/fetchAPI.util";
 
+import { NavBackground } from "../navigation/nav.background";
+import API from "../../util/fetchAPI.util";
 import Editor from "../editor/editor.component";
 
-import "./add-post.css";
 import "./add-post.scss";
 const AddPost = () => {
   const history = useHistory();
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [form, setForm] = useState({
     title: "My One and Only",
     subtitle: "A Poem dedicated to the person that colored my world",
     content: "",
     img: ""
   });
-  const [editorState, setEditorState] = useState(
-    // EditorState.createWithContent(convertFromRaw(content))
-    EditorState.createEmpty()
-  );
 
   //didMount
   useEffect(() => {
@@ -48,9 +45,8 @@ const AddPost = () => {
       data.append("subtitle", form.subtitle);
       data.append("image_banner", form.img);
       data.append("content", editorJSON);
-      const res = await API.create("/article", true, data);
-      history.push(`/article/${res.id}`);
-      //Redirect to /article/:id
+      const res = await API.create("/posts", true, data);
+      history.push(`/posts/${res.id}`);
     } catch (e) {
       console.log(e);
     }
@@ -58,9 +54,7 @@ const AddPost = () => {
 
   return (
     <>
-      <div
-        style={{ width: "100%", height: "50px", backgroundColor: "#0085a1" }}
-      ></div>
+      <NavBackground />
       <Container>
         <Row className="add-post">
           <Col lg={8} md={10} className="mx-auto">
@@ -122,25 +116,3 @@ const AddPost = () => {
 };
 
 export default AddPost;
-
-/*
-div.DraftEditor-root {
-  border: 1px solid #000;
-  background-color: beige;
-  height: 200px;
-  width: 300px;
-  overflow-y: auto;
-}
-div.DraftEditor-editorContainer,
-div.public-DraftEditor-content {
-  height: 100%;
-}
-
-image: {
-  uploadCallback: uploadImageCallBack,
-  previewImage: true,
-  alt: { present: true, mandatory: false },
-  inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-}
-
-*/

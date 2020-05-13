@@ -14,17 +14,17 @@ const PostComponent = () => {
   const location = useLocation();
   const id = location.state.id;
   const [loading, setLoading] = useState(true);
-  const [article, setArticle] = useState({});
+  const [post, setPost] = useState({});
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      const res = await API.get(`/article/${id}`, false);
-      setArticle(res);
+    const fetchPost = async () => {
+      const res = await API.get(`/posts/${id}`, false);
+      setPost(res);
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     };
-    fetchArticle();
+    fetchPost();
   }, [id]);
 
   //Centers Image
@@ -39,7 +39,7 @@ const PostComponent = () => {
   };
 
   const markup = () => ({
-    __html: `<div>${convertImages(article.content)} </div>`
+    __html: `<div>${convertImages(post.content)} </div>`
   });
 
   return (
@@ -50,9 +50,9 @@ const PostComponent = () => {
         ) : (
           <>
             <Header
-              url={`banner/${article.image_banner}`}
-              title={article.title}
-              subTitle={article.subtitle}
+              url={`banner/${post.image_banner}`}
+              title={post.title}
+              subTitle={post.subtitle}
             />
             <Container>
               <Row>

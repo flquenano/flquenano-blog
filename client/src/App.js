@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 import Navbar from "./components/navigation/nav.component";
 
@@ -12,22 +13,25 @@ import Login from "./components/user/login/login.component";
 import Article from "./components/post/post.component";
 import Dashboard from "./components/dashboard/dashboard.component";
 import { NotFound } from "./pages/404/notFound.page";
-
+import HomePage from "./pages/home/home.page";
 function App() {
   return (
-    <div className="App">
+    <div className="App" as={Container}>
       <Navbar />
       <Switch>
         <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route exact path="/Blog">
           <Content />
         </Route>
-        <Route exact path="/article/create">
+        <Route exact path="/posts/create">
           <AddPost />
         </Route>
-        <Route exact path="/article/:id">
+        <Route exact path="/posts/:id">
           <Article />
         </Route>
-        <Route exact path="/article/edit/:id">
+        <Route exact path="/posts/edit/:id">
           <EditPost />
         </Route>
         <Route exact path="/dashboard">
@@ -44,7 +48,7 @@ function App() {
       {/* <Post /> */}
       {/* /<Content /> */}
       {/* <Article /> */}
-      <hr />
+
       <Footer />
     </div>
   );

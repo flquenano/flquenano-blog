@@ -26,7 +26,3 @@ const HeaderComponent = ({ url, title, subTitle }) => {
 };
 
 export default HeaderComponent;
-
-/*
-/article/5eb3b11ab34ec53db49af445
-*/

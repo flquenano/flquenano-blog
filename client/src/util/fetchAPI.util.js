@@ -60,7 +60,7 @@ const get = (url, secured) => request(url, secured);
 const create = (url, secured, data, params) =>
   request(url, secured, data, "POST", params);
 const patch = (url, secured, data) => request(url, secured, data, "PATCH");
-const remove = (url) => request(url, "DELETE");
+const remove = (url, secured) => request(url, secured, "", "DELETE");
 
 export default {
   get,

@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+
 import ContentItem from "./content-item/content-item.component";
-// import Header from "./components/header/header.component";
 import API from "../../util/fetchAPI.util";
 import Spinner from "../spinner/spinner.component";
+import { NavBackground } from "../navigation/nav.background";
 
 import "./_content.scss";
 
 const Content = () => {
   const [postCnt, setPostCnt] = useState(1);
-  const [articles, setArticles] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log(<NavBackground />);
     const getAll = async () => {
-      const res = await API.get(`/article?page=${postCnt}`, false);
-      if (res.data.articles.length < 1) {
+      const res = await API.get(`/posts?page=${postCnt}`, false);
+      if (res.data.posts.length < 1) {
         setLoading(false);
         return;
       }
-      setArticles(res.data.articles);
+      setPosts(res.data.posts);
       setLoading(false);
     };
 
@@ -38,9 +40,7 @@ const Content = () => {
 
   return (
     <>
-      <div
-        style={{ width: "100%", height: "58px", backgroundColor: "#0085a1" }}
-      ></div>
+      <NavBackground />
       {loading ? (
         <Spinner />
       ) : (
@@ -53,16 +53,16 @@ const Content = () => {
               className="mx-auto"
               style={{ minHeight: "80vh" }}
             >
-              {articles.map((article, idx) => (
+              {posts.map((post, idx) => (
                 <ContentItem
                   key={idx}
                   link={{
-                    pathname: `article/${article.title.replace(/\s/g, "-")}`,
-                    state: { id: article._id }
+                    pathname: `posts/${post.title.replace(/\s/g, "-")}`,
+                    state: { id: post._id }
                   }}
-                  title={article.title}
-                  subTitle={article.subtitle}
-                  postMeta={article.date_added}
+                  title={post.title}
+                  subTitle={post.subtitle}
+                  postMeta={post.date_added}
                 />
               ))}
               <div className="clearfix">

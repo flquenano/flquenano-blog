@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const articleSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -18,34 +18,6 @@ const articleSchema = mongoose.Schema({
     ref: "user",
     required: true
   },
-  comments: [
-    {
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
-        required: true
-      },
-      body: String
-    }
-  ],
-  likes: [
-    {
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
-        required: true
-      }
-    }
-  ],
-  saved: [
-    {
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "user",
-        required: true
-      }
-    }
-  ],
   active: {
     type: Boolean,
     select: false,
@@ -57,7 +29,7 @@ const articleSchema = mongoose.Schema({
   }
 });
 
-// articleSchema.pre(/^find/, function (next) {
+// postSchema.pre(/^find/, function (next) {
 //   const query = [
 //     { path: "user", select: "name id" },
 //     { path: "comments.user", select: "name id" },
@@ -68,4 +40,4 @@ const articleSchema = mongoose.Schema({
 //   next();
 // });
 
-module.exports = mongoose.model("article", articleSchema);
+module.exports = mongoose.model("posts", postSchema);

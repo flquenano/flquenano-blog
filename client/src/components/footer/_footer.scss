@@ -2,10 +2,10 @@
 
 footer {
   padding: 0px 0 30px;
-  margin-top: auto;
+  border-top: 1px solid #d1d1d1;
   .list-inline {
     margin: 0;
-    padding: 0;
+    padding: 10px 0;
   }
   .copyright {
     font-size: 14px;
@@ -14,7 +14,6 @@ footer {
   }
   .list-inline-item {
     padding: 10px 20px;
-    margin-bottom: 20px;
   }
 
   .list-inline-item:hover {

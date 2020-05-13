@@ -8,7 +8,7 @@ const EditorComponent = ({ editorState, editorStateChange }) => {
     try {
       const data = new FormData(); // eslint-disable-line no-undef
       data.append("image", file);
-      const res = await API.create("/upload/article", false, data);
+      const res = await API.create("/upload/img", false, data);
       return res;
     } catch (e) {
       console.log(e);

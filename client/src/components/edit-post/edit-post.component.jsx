@@ -3,18 +3,25 @@ import { useHistory, useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
-import draftToHtml from "draftjs-to-html";
-import API from "../../util/fetchAPI.util";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+import API from "../../util/fetchAPI.util";
 import Editor from "../editor/editor.component";
 import Spinner from "../spinner/spinner.component";
-import "./add-post.css";
-import "./add-post.scss";
+import { NavBackground } from "../navigation/nav.background";
+// import Swal from "../Swal/Sweetalert.component";
+
+import "./edit-post.scss";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 const AddPost = () => {
   const history = useHistory();
   const location = useLocation();
   const id = location.state.id;
+
+  const MySwal = withReactContent(Swal);
 
   const [form, setForm] = useState({
     title: "",
@@ -25,28 +32,24 @@ const AddPost = () => {
     }
   });
   const [loading, setLoading] = useState(true);
-  const [editorState, setEditorState] = useState(
-    // EditorState.createWithContent(convertFromRaw(content))
-    EditorState.createEmpty()
-  );
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   //didMount
   useEffect(() => {
     bsCustomFileInput.init();
-    const getArticle = async () => {
-      const res = await API.get(`/article/${id}`, false); // must be true
+    const getPost = async () => {
+      const res = await API.get(`/posts/${id}`, false); // must be true
       setForm({
         ...form,
         title: res.title,
         subtitle: res.subtitle
       });
-      console.log(res);
       setEditorState(
         EditorState.createWithContent(convertFromRaw(JSON.parse(res.content)))
       );
       setLoading(false);
     };
-    getArticle();
+    getPost();
   }, [id]);
 
   const userInput = (event) => {
@@ -70,21 +73,31 @@ const AddPost = () => {
       data.append("subtitle", form.subtitle);
       data.append("image_banner", form.img);
       data.append("content", editorJSON);
-      const res = await API.patch(`/article/${id}`, true, data);
-      history.push({
-        pathname: `/article/${res.title.replace(/\s/g, "-")}`,
-        state: { id: res._id }
+      const res = await API.patch(`/posts/${id}`, true, data);
+
+      MySwal.fire({
+        title: <p>Update Successful!</p>,
+        icon: "success",
+        showConfirmButton: true,
+        onClose: () => {
+          history.push({
+            pathname: `/posts/${res.title.replace(/\s/g, "-")}`,
+            state: { id: res._id }
+          });
+        }
       });
-      // history.push(`/article/${res.id}`);
-      //Redirect to /article/:id
     } catch (e) {
-      console.log(e);
+      MySwal.fire({
+        title: <p>Update Failed!</p>,
+        icon: "error",
+        showConfirmButton: true
+      });
     }
   };
 
   return (
     <>
-      <div className="nav-bg" />
+      <NavBackground />
       {loading ? (
         <Spinner />
       ) : (
