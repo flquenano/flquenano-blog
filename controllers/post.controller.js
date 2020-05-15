@@ -3,13 +3,22 @@ const catchAsync = require("../utils/catchAsync.util");
 const APIFeatures = require("../utils/apiFeatures.util");
 
 exports.create_post = catchAsync(async (req, res) => {
-  const post = {
+  let post = {
     title: req.body.title,
     content: req.body.content,
-    image_banner: req.file.filename,
     user: req.user.id
   };
-
+  if (req.file === undefined) {
+    post = {
+      ...post,
+      image_banner: "f6703de376027ac6bdf16f7622b93e03d6f1.jpg"
+    };
+  } else {
+    post = {
+      ...post,
+      image_banner: req.file.filename
+    };
+  }
   const doc = await PostModel.create(post);
 
   if (!doc) {
@@ -35,10 +44,12 @@ exports.get_posts = catchAsync(async (req, res) => {
       { id: 1, title: 1, subtitle: 1, user: 1, date_added: 1 }
     ).populate({
       path: "user",
-      select: "name"
+      select: "account_name"
     }),
     req.query
-  ).paginate();
+  )
+    .paginate()
+    .sort();
   const docs = await features.query;
 
   res.status(200).json({
@@ -50,11 +61,12 @@ exports.get_posts = catchAsync(async (req, res) => {
 });
 
 exports.get_my_posts = catchAsync(async (req, res) => {
-  const doc_cnt = await PostModel.count({ user: req.user.id, active: true });
+  console.log(req.user);
+  const doc_cnt = await PostModel.find({ user: req.user._id, active: true });
   res.status(200).json({
     status: "success",
     data: {
-      count: doc_cnt
+      posts: doc_cnt
     }
   });
 });

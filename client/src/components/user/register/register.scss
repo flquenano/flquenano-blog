@@ -1,0 +1,44 @@
+@import "../../../mixins";
+@import "../../../variables";
+
+#register-wrapper {
+  background: no-repeat center center;
+  background-color: $gray-600;
+  background-attachment: scroll;
+  position: relative;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)),
+    url("../login/login-bg.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 110vh;
+  overflow: hidden;
+  .Card {
+    width: 500px;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .login-btn {
+      margin-top: 50px;
+    }
+    .card-icon {
+      text-align: center;
+      font-size: 5rem;
+    }
+    .spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .Card {
+      width: 350px;
+      margin: 40px 0;
+    }
+    height: 800px;
+  }
+}

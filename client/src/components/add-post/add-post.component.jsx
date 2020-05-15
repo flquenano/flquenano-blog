@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import { NavBackground } from "../navigation/nav.background";
 import API from "../../util/fetchAPI.util";
@@ -11,7 +13,10 @@ import Editor from "../editor/editor.component";
 import "./add-post.scss";
 const AddPost = () => {
   const history = useHistory();
+  const MySwal = withReactContent(Swal);
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
     title: "My One and Only",
     subtitle: "A Poem dedicated to the person that colored my world",
@@ -35,18 +40,35 @@ const AddPost = () => {
     setForm({ ...form, img: event.target.files[0] });
   };
 
-  const submit = async () => {
+  const submit = async (e) => {
     try {
+      setValidated(true);
+      if (form.title === "") {
+        return;
+      }
+      console.log(editorState.getCurrentContent().hasText());
+      if (!editorState.getCurrentContent().hasText()) {
+        MySwal.fire({
+          title: <p>Editor Empty!</p>,
+          icon: "warning",
+          showConfirmButton: true
+        });
+        return;
+      }
       const data = new FormData();
       const editorJSON = JSON.stringify(
         convertToRaw(editorState.getCurrentContent())
       );
       data.append("title", form.title);
       data.append("subtitle", form.subtitle);
-      data.append("image_banner", form.img);
       data.append("content", editorJSON);
+      data.append("image_banner", form.img);
       const res = await API.create("/posts", true, data);
-      history.push(`/posts/${res.id}`);
+      console.log(res);
+      history.push({
+        pathname: `/posts/${form.title.replace(/\s/g, "-")}`,
+        state: { id: res.id }
+      });
     } catch (e) {
       console.log(e);
     }
@@ -58,7 +80,7 @@ const AddPost = () => {
       <Container>
         <Row className="add-post">
           <Col lg={8} md={10} className="mx-auto">
-            <Form>
+            <Form noValidate validated={validated}>
               <Form.Group controlId="post_title">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
@@ -67,8 +89,10 @@ const AddPost = () => {
                   onChange={userInput}
                   name="title"
                   value={form.title}
+                  required
                 />
               </Form.Group>
+
               <Form.Group controlId="post_subtitle">
                 <Form.Label>Sub Title:</Form.Label>
                 <Form.Control

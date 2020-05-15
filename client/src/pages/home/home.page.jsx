@@ -1,6 +1,13 @@
 import React from "react";
-import { Container, Row, Col, Image, Card, Button } from "react-bootstrap";
-import Footer from "../../components/footer/footer.component";
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Card,
+  Button,
+  ButtonGroup
+} from "react-bootstrap";
 
 import "./home.scss";
 const HomePage = () => {
@@ -10,13 +17,8 @@ const HomePage = () => {
         style={{ width: "100%", height: "100vh", background: "black" }}
       ></div>
       <Container id="homepage">
-        <Row style={{ padding: "4rem 0" }}>
+        <Row style={{ padding: "75px 0", marginTop: "30px" }}>
           <Col sm={12}>
-            <Row>
-              <Col sm={12}>
-                <h1>About Me</h1>
-              </Col>
-            </Row>
             <Row>
               <Col sm={6}>
                 <Row>
@@ -46,9 +48,9 @@ const HomePage = () => {
                     </p>
                   </Col>
                 </Row>
+
                 <Row>
                   <Col md={12}>
-                    <hr />
                     <h2>Skills</h2>
                     <p>
                       What is Lorem Ipsum? Lorem Ipsum is simply dummy text of
@@ -65,6 +67,11 @@ const HomePage = () => {
                 </Row>
               </Col>
               <Col sm={6}>
+                <Row>
+                  <Col sm={12}>
+                    <h1>About Me</h1>
+                  </Col>
+                </Row>
                 What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the
                 printing and typesetting industry. Lorem Ipsum has been the
                 industry's standard dummy text ever since the 1500s, when an
@@ -87,6 +94,11 @@ const HomePage = () => {
                 accident, sometimes on purpose (injected humour and the like).
               </Col>
             </Row>
+            <Row style={{ margin: "75px 0" }}>
+              <Col md={12}>
+                <hr />
+              </Col>
+            </Row>
             <Row>
               <Col sm={12}>
                 <Row>
@@ -97,12 +109,29 @@ const HomePage = () => {
                     <Card style={{ width: "100%", height: "350px" }}>
                       <Card.Img variant="top" src="holder.js/100px180" />
                       <Card.Body>
-                        <Card.Title>Card Title</Card.Title>
+                        <Card.Title>Blog</Card.Title>
                         <Card.Text>
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
+                          Built with ReactJS, NodeJS and MongoDB with Clean Blog
+                          as template.
                         </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
+                        <Row className="text-center">
+                          <Col md={12}>
+                            <ButtonGroup>
+                              <Button
+                                variant="primary"
+                                style={{ marginLeft: "2px" }}
+                              >
+                                Demo
+                              </Button>
+                              <Button
+                                variant="primary"
+                                style={{ marginLeft: "2px" }}
+                              >
+                                Code
+                              </Button>
+                            </ButtonGroup>
+                          </Col>
+                        </Row>
                       </Card.Body>
                     </Card>
                   </Col>

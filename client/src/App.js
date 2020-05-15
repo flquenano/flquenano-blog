@@ -10,6 +10,7 @@ import Post from "./components/post/post.component";
 import EditPost from "./components/edit-post/edit-post.component";
 import AddPost from "./components/add-post/add-post.component";
 import Login from "./components/user/login/login.component";
+import Register from "./components/user/register/register.component";
 import Article from "./components/post/post.component";
 import Dashboard from "./components/dashboard/dashboard.component";
 import { NotFound } from "./pages/404/notFound.page";
@@ -39,6 +40,9 @@ function App() {
         </Route>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/register">
+          <Register />
         </Route>
         <Route exact path="*" component={NotFound} />
       </Switch>

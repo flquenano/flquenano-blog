@@ -55,6 +55,7 @@ header.masthead {
   background-attachment: scroll;
   position: relative;
   height: 532px;
+
   @include background-cover;
   .overlay {
     position: absolute;

@@ -7,24 +7,25 @@ async function request(
   secured = false,
   data = "",
   method = "GET",
-  params = ""
+  params = "",
+  appJson = false
 ) {
   const myHeaders = new Headers();
-  Cookies.set(
-    "token",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOWEyZDBkYTc1MDM3MTc3YzY1OWZkMSIsImlhdCI6MTU4ODgwNzIxNywiZXhwIjoxNTg5NDEyMDE3fQ.Xp3ydF5-ksMa2Vhqs-JNIVEai10tlRBSAQxyFb6eNQ8"
-  );
   if (secured) {
     myHeaders.append("Authorization", `Bearer ${Cookies.get("token")}`);
   }
 
+  if (appJson) {
+    myHeaders.append("Content-Type", "application/json");
+  }
+
+  console.log(myHeaders);
   let options = {
     method,
     mode: "cors",
     cache: "no-cache",
     headers: myHeaders
   };
-
   if (data) {
     options = {
       ...options,
@@ -57,8 +58,8 @@ const objToQueryString = (obj) =>
     .join("&");
 
 const get = (url, secured) => request(url, secured);
-const create = (url, secured, data, params) =>
-  request(url, secured, data, "POST", params);
+const create = (url, secured, data, params, appJson) =>
+  request(url, secured, data, "POST", params, appJson);
 const patch = (url, secured, data) => request(url, secured, data, "PATCH");
 const remove = (url, secured) => request(url, secured, "", "DELETE");
 

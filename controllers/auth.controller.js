@@ -24,6 +24,7 @@ const send_token = (user, status_code, req, res) => {
   res.cookie("jwt", token, cookie_options);
   user.password = undefined;
   res.status(status_code).json({
+    status: "success",
     token,
     user
   });
@@ -56,7 +57,6 @@ exports.login = catchAsync(async (req, res) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req.headers);
   let token;
   if (
     req.headers.authorization &&

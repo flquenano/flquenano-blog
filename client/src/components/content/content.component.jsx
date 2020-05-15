@@ -14,9 +14,8 @@ const Content = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(<NavBackground />);
     const getAll = async () => {
-      const res = await API.get(`/posts?page=${postCnt}`, false);
+      const res = await API.get(`/posts?page=${postCnt}&sort`, false);
       if (res.data.posts.length < 1) {
         setLoading(false);
         return;
@@ -51,19 +50,10 @@ const Content = () => {
               lg={8}
               md={10}
               className="mx-auto"
-              style={{ minHeight: "80vh" }}
+              style={{ minHeight: "80vh", margin: "50px 0" }}
             >
               {posts.map((post, idx) => (
-                <ContentItem
-                  key={idx}
-                  link={{
-                    pathname: `posts/${post.title.replace(/\s/g, "-")}`,
-                    state: { id: post._id }
-                  }}
-                  title={post.title}
-                  subTitle={post.subtitle}
-                  postMeta={post.date_added}
-                />
+                <ContentItem key={idx} post={post} />
               ))}
               <div className="clearfix">
                 {false ? (

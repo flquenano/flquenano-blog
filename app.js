@@ -29,11 +29,11 @@ if (process.env.NODE_ENV === "development") {
 app.use(process.env.URL_BASE + "/user", user_routes);
 app.use(process.env.URL_BASE + "/posts", post_routes);
 app.use(process.env.URL_BASE + "/upload", upload_routes);
-app.all("*", (req, res, next) => {
+app.all("*", (req, res) => {
   res.status(404).send(`Can't Find ${req.originalUrl} on this server`);
 });
 
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
   res.status("200").json({
     message: "Request Accepted!"
   });

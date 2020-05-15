@@ -15,7 +15,6 @@ import "./dashboard.scss";
 
 const Dashboard = () => {
   const swal = withReactContent(Swal);
-  const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const [delPost, setDeletePost] = useState(1);
   const [posts, setPosts] = useState({});
@@ -24,12 +23,13 @@ const Dashboard = () => {
   useEffect(() => {
     setLoading(true);
     const getAll = async () => {
-      const res = await API.get(`/posts`, true);
+      const res = await API.get(`/posts/my-posts`, true);
+      console.log(res.data.posts);
       setPosts(res.data.posts);
       setLoading(false);
     };
     getAll();
-  }, [delPost, title]);
+  }, [delPost]);
 
   const deletePost = (id, title) => {
     swal
@@ -62,13 +62,18 @@ const Dashboard = () => {
       });
   };
 
+  const myPosts = () =>
+    posts.map((post, idx) => (
+      <TData key={idx} post={post} remove={deletePost} />
+    ));
+
   return (
     <>
       <NavBackground />
       {loading ? (
         <Spinner />
       ) : (
-        <Container className="dashboard" style={{ minHeight: "70vh" }}>
+        <Container className="dashboard" style={{ minHeight: "80vh" }}>
           <br />
           <br />
 
@@ -76,17 +81,17 @@ const Dashboard = () => {
             <Col>
               <div
                 style={{
-                  minHeight: "400px",
-                  height: "400px",
+                  minHeight: "450px",
+                  maxHeight: "450px",
                   width: "100%",
-                  overflow: "auto"
+                  overflowY: "auto"
                 }}
               >
                 <Table
                   bordered
                   striped
                   style={{
-                    height: "400px"
+                    minHeight: "450px"
                   }}
                 >
                   <thead>
@@ -96,14 +101,7 @@ const Dashboard = () => {
                       ))}
                     </tr>
                   </thead>
-                  <tbody>
-                    {posts.map((post, idx) => {
-                      console.log(post);
-                      return (
-                        <TData key={idx} post={post} remove={deletePost} />
-                      );
-                    })}
-                  </tbody>
+                  <tbody>{myPosts()}</tbody>
                 </Table>
               </div>
 

@@ -20,7 +20,7 @@ const FooterComponent = () => {
   return (
     <footer as={Container}>
       <Row>
-        <Col lg={8} md={10} className="mx-auto">
+        <Col lg={8} md={12} className="mx-auto">
           <ul className="list-inline text-center list-icon">
             {icons.map((el, idx) => (
               <FooterItem key={idx} icon={el.icon} link={el.link} />
