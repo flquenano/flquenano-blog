@@ -9,33 +9,59 @@ import { NavBackground } from "../navigation/nav.background";
 import "./_content.scss";
 
 const Content = () => {
-  const [postCnt, setPostCnt] = useState(1);
+  const [pageCtr, setPageCtr] = useState(1);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [showGetOlder, setShowGetOlder] = useState(true);
+  const [showGetNewer, setShowGetNewer] = useState(false);
+  let runOnce = true;
   useEffect(() => {
     const getAll = async () => {
-      const res = await API.get(`/posts?page=${postCnt}&sort`, false);
-      if (res.data.posts.length < 1) {
-        setLoading(false);
-        return;
+      const res = await API.get(`/posts?page=${pageCtr}&sort`, false);
+
+      if (pageCtr * 5 - 5 + res.data.posts.length == res.data.count) {
+        setShowGetOlder(false);
+      } else {
+        setShowGetOlder(true);
+      }
+
+      if (pageCtr === 1) {
+        setShowGetNewer(false);
+      } else {
+        setShowGetNewer(true);
       }
       setPosts(res.data.posts);
       setLoading(false);
     };
 
     getAll();
-  }, [postCnt]);
+  }, [pageCtr]);
 
   const getOlder = () => {
     setLoading(true);
-    setPostCnt(postCnt + 1);
+    setPageCtr(pageCtr + 1);
   };
 
   const getNewer = () => {
     setLoading(true);
-    setPostCnt(postCnt - 1);
+    setPageCtr(pageCtr - 1);
   };
+
+  const getOlderBtn = () => (
+    <Button className="float-right" onClick={getOlder}>
+      Older Posts &rarr;
+    </Button>
+  );
+
+  const getNewerBtn = () => (
+    <Button
+      className="float-right"
+      style={{ marginRight: "5px" }}
+      onClick={getNewer}
+    >
+      &larr; Newer Posts
+    </Button>
+  );
 
   return (
     <>
@@ -55,25 +81,10 @@ const Content = () => {
               {posts.map((post, idx) => (
                 <ContentItem key={idx} post={post} />
               ))}
+
               <div className="clearfix">
-                {false ? (
-                  ""
-                ) : (
-                  <Button className="float-right" onClick={getOlder}>
-                    Older Posts &rarr;
-                  </Button>
-                )}
-                {postCnt === 1 ? (
-                  ""
-                ) : (
-                  <Button
-                    className="float-right"
-                    style={{ marginRight: "5px" }}
-                    onClick={getNewer}
-                  >
-                    &larr; Newer Posts
-                  </Button>
-                )}
+                {showGetOlder ? getOlderBtn() : null}
+                {showGetNewer ? getNewerBtn() : null}
               </div>
             </Col>
           </Row>

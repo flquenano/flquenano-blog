@@ -46,7 +46,7 @@ const AddPost = () => {
       if (form.title === "") {
         return;
       }
-      console.log(editorState.getCurrentContent().hasText());
+
       if (!editorState.getCurrentContent().hasText()) {
         MySwal.fire({
           title: <p>Editor Empty!</p>,

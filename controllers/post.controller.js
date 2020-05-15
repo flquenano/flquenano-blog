@@ -51,10 +51,11 @@ exports.get_posts = catchAsync(async (req, res) => {
     .paginate()
     .sort();
   const docs = await features.query;
-
+  const cnt = await PostModel.find({ active: true });
   res.status(200).json({
     status: "success",
     data: {
+      count: cnt.length,
       posts: docs
     }
   });
