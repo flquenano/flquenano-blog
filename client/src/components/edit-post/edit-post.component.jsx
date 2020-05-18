@@ -11,7 +11,6 @@ import API from "../../util/fetchAPI.util";
 import Editor from "../editor/editor.component";
 import Spinner from "../spinner/spinner.component";
 import { NavBackground } from "../navigation/nav.background";
-// import Swal from "../Swal/Sweetalert.component";
 
 import "./edit-post.scss";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -19,8 +18,6 @@ import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const AddPost = () => {
   const history = useHistory();
   const location = useLocation();
-  const id = location.state.id;
-
   const MySwal = withReactContent(Swal);
 
   const [form, setForm] = useState({
@@ -38,7 +35,11 @@ const AddPost = () => {
   useEffect(() => {
     bsCustomFileInput.init();
     const getPost = async () => {
-      const res = await API.get(`/posts/${id}`, false); // must be true
+      console.log(location.state);
+      if (location.state === undefined) {
+        return history.push("/blog/404");
+      }
+      const res = await API.get(`/posts/${location.state.id}`, false); // must be true
       setForm({
         ...form,
         title: res.title,
@@ -50,7 +51,7 @@ const AddPost = () => {
       setLoading(false);
     };
     getPost();
-  }, [id]);
+  }, []);
 
   const userInput = (event) => {
     setForm({
@@ -73,7 +74,7 @@ const AddPost = () => {
       data.append("subtitle", form.subtitle);
       data.append("image_banner", form.img);
       data.append("content", editorJSON);
-      const res = await API.patch(`/posts/${id}`, true, data);
+      const res = await API.patch(`/posts/${location.state.id}`, true, data);
 
       MySwal.fire({
         title: <p>Update Successful!</p>,
@@ -81,7 +82,7 @@ const AddPost = () => {
         showConfirmButton: true,
         onClose: () => {
           history.push({
-            pathname: `/posts/${res.title.replace(/\s/g, "-")}`,
+            pathname: `/blog/posts/${res.title.replace(/\s/g, "-")}`,
             state: { id: res._id }
           });
         }

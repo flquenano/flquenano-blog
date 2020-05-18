@@ -9,13 +9,18 @@ import {
   Button,
   Spinner
 } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import emailSignIn from "./login";
 
 import "./login.scss";
 
 const LoginComponent = () => {
   const [loader, setLoader] = useState(false);
-
+  const history = useHistory();
+  const swal = withReactContent(Swal);
   const { values, handleChange } = useForm({
     email: "flcq27@gmail.com",
     password: "flcq0727"
@@ -24,13 +29,35 @@ const LoginComponent = () => {
   const signIn = async () => {
     setLoader(true);
     const res = await emailSignIn(values);
-    if (res.status) {
-      alert("Login Successful!");
-    } else {
-      alert("Login Failed");
-    }
     setLoader(false);
+    if (res.status) {
+      swalSucess();
+    } else {
+      swalFailed();
+    }
   };
+
+  const swalSucess = () =>
+    swal
+      .fire({
+        title: "Login Success!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
+      .then(() => {
+        history.push("/blog/dashboard");
+      });
+
+  const swalFailed = () =>
+    swal.fire({
+      title: "Login Failed!",
+      icon: "error",
+      timer: 2000,
+      showConfirmButton: false,
+      allowOutsideClick: false
+    });
 
   const spinner = () => (
     <div className="spinner">

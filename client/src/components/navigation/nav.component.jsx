@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./navigation.scss";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const NavigationBar = () => {
   let MinWidth = 992;
   let previousTop = 0;
 
+  const { url } = useRouteMatch();
   const [cssClasses, setCssClasses] = useState({
     isVisible: true,
     isFixed: true
@@ -53,9 +54,9 @@ const NavigationBar = () => {
   };
 
   const navItems = [
-    { nav: "Home", link: "/" },
-    { nav: "Dashboard", link: "/dashboard" },
-    { nav: "Blog", link: "/Blog" }
+    { nav: "Home", link: `${url}` },
+    { nav: "Dashboard", link: `${url}/dashboard` },
+    { nav: "Blog", link: `${url}` }
   ];
   return (
     <>

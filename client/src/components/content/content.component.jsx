@@ -14,7 +14,6 @@ const Content = () => {
   const [loading, setLoading] = useState(true);
   const [showGetOlder, setShowGetOlder] = useState(true);
   const [showGetNewer, setShowGetNewer] = useState(false);
-  let runOnce = true;
   useEffect(() => {
     const getAll = async () => {
       const res = await API.get(`/posts?page=${pageCtr}&sort`, false);

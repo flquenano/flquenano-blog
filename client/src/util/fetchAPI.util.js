@@ -44,8 +44,12 @@ async function request(
   }
 
   const response = await fetch(apiHost + url, options);
-
-  const result = await response.json();
+  const code = response.status;
+  let result = await response.json();
+  result = {
+    ...result,
+    code
+  };
   return result;
 }
 

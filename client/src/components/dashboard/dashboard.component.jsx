@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -13,7 +13,9 @@ import { NavBackground } from "../navigation/nav.background";
 
 import "./dashboard.scss";
 
+//Consume Context for Name Display
 const Dashboard = () => {
+  const history = useHistory();
   const swal = withReactContent(Swal);
   const [loading, setLoading] = useState(true);
   const [delPost, setDeletePost] = useState(1);
@@ -24,12 +26,28 @@ const Dashboard = () => {
     setLoading(true);
     const getAll = async () => {
       const res = await API.get(`/posts/my-posts`, true);
-      console.log(res.data.posts);
+      if (res.code === 401) {
+        return sessionExpired();
+      }
       setPosts(res.data.posts);
       setLoading(false);
     };
     getAll();
   }, [delPost]);
+
+  const sessionExpired = () =>
+    swal
+      .fire({
+        title: "Session Expired!",
+        icon: "warning",
+        text: "Please Login Again!",
+        timer: 2000,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
+      .then(() => {
+        history.push("/blog/login");
+      });
 
   const deletePost = (id, title) => {
     swal
@@ -107,7 +125,7 @@ const Dashboard = () => {
 
               <Button
                 as={Link}
-                to="/posts/create"
+                to="posts/create"
                 style={{ float: "left", margin: "2rem 0" }}
               >
                 Add posts

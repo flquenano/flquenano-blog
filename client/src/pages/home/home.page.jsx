@@ -8,35 +8,61 @@ import {
   Button,
   ButtonGroup
 } from "react-bootstrap";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./home.scss";
 const HomePage = () => {
   return (
     <>
-      <div
-        style={{ width: "100%", height: "100vh", background: "black" }}
-      ></div>
+      <div id="landing">
+        <div className="overlay"></div>
+        <Container>
+          <Row>
+            <Col lg={8} md={12} className="mx-auto my-auto">
+              <div className="page-heading">
+                <h1>Hi there, I'm Francis!</h1>
+                <span className="subheading">Welcome to my Page!</span>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <div className="btn-container">
+                <div className="scroll-down">
+                  <FontAwesomeIcon icon={faAngleDown} size="3x" />
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
       <Container id="homepage">
-        <Row style={{ padding: "75px 0", marginTop: "30px" }}>
-          <Col sm={12}>
-            <Row>
-              <Col sm={6}>
-                <Row>
-                  <Col sm={6} md={5}>
-                    <Image
-                      src="http://localhost:5000/uploads/images/65965925290be8da4cf15827e3df6428f83c.jpg"
-                      rounded
-                      style={{ width: "150px", height: "150px" }}
-                    />
-                  </Col>
-                  <Col sm={6} md={7}>
+        <Row className="about-me">
+          <Col sm={12} md={6}>
+            <Container className="p-3">
+              <Row>
+                <Col xs={12} sm={4} md={5}>
+                  <Image
+                    src="http://localhost:5000/uploads/images/65965925290be8da4cf15827e3df6428f83c.jpg"
+                    rounded
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      margin: "20px 0"
+                    }}
+                  />
+                </Col>
+                <Col xs={12} sm={8} md={7}>
+                  <div className="my-info">
                     <p>
                       <span className="title">Name: </span>
-                      <span>Francis Luigie C. Queñano</span>
+                      <span>Francis Queñano</span>
                     </p>
                     <p>
                       <span className="title">Profile: </span>
-                      <span>Junior Web Developer</span>
+                      <span>Software Engineer</span>
                     </p>
                     <p>
                       <span className="title">Email: </span>
@@ -46,122 +72,169 @@ const HomePage = () => {
                       <span className="title">Phone: </span>
                       <span>(504)266-9417</span>
                     </p>
-                  </Col>
-                </Row>
+                  </div>
+                  <Row>
+                    <Col>
+                      <Button
+                        style={{
+                          fontSize: "12px",
+                          width: "auto",
+                          padding: "5px 7px",
+                          marginRight: "2px"
+                        }}
+                      >
+                        Resume
+                      </Button>
 
-                <Row>
-                  <Col md={12}>
-                    <h2>Skills</h2>
-                    <p>
-                      What is Lorem Ipsum? Lorem Ipsum is simply dummy text of
-                      the printing and typesetting industry. Lorem Ipsum has
-                      been the industry's standard dummy text ever since the
-                      1500s, when an unknown printer took a galley of type and
-                      scrambled it to make a type specimen book. It has survived
-                      not only five centuries, but also the leap into electronic
-                      typesetting, remaining essentially unchanged. It was
-                      popularised in the 1960s with the release of Letraset
-                      sheets containing Lorem Ipsum passages, and more
-                    </p>
-                  </Col>
-                </Row>
-              </Col>
-              <Col sm={6}>
-                <Row>
-                  <Col sm={12}>
-                    <h1>About Me</h1>
-                  </Col>
-                </Row>
-                What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled it to make a
-                type specimen book. It has survived not only five centuries, but
-                also the leap into electronic typesetting, remaining essentially
-                unchanged. It was popularised in the 1960s with the release of
-                Letraset sheets containing Lorem Ipsum passages, and more
-                recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum. Why do we use it? It is a
-                long established fact that a reader will be distracted by the
-                readable content of a page when looking at its layout. The point
-                of using Lorem Ipsum is that it has a more-or-less normal
-                distribution of letters, as opposed to using 'Content here,
-                content here', making it look like readable English. Many
-                desktop publishing packages and web page editors now use Lorem
-                Ipsum as their default model text, and a search for 'lorem
-                ipsum' will uncover many web sites still in their infancy.
-                Various versions have evolved over the years, sometimes by
-                accident, sometimes on purpose (injected humour and the like).
-              </Col>
-            </Row>
-            <Row style={{ margin: "75px 0" }}>
-              <Col md={12}>
-                <hr />
-              </Col>
-            </Row>
+                      <Button
+                        style={{
+                          fontSize: "12px",
+                          width: "auto",
+                          padding: "5px 7px",
+                          marginRight: "2px"
+                        }}
+                      >
+                        My Grades
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Container>
+
+            <Container>
+              <Row className="my-skills">
+                <Col md={12}>
+                  <span className="h3">My Skills</span>
+                  <ul style={{ fontSize: "1.2rem" }}>
+                    <li style={{ margin: "5% 0" }}>
+                      Programming/Languages
+                      <ul style={{ columns: "2" }}>
+                        <li>Javascript</li>
+                        <li>ReactJS</li>
+                        <li>NodeJS</li>
+                        <li>HTML & (S)CSS</li>
+                      </ul>
+                    </li>
+                    <li style={{ margin: "5% 0" }}>
+                      Database
+                      <ul style={{ columns: "2" }}>
+                        <li>MongoDB</li>
+                        <li>MySQL</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </Col>
+              </Row>
+            </Container>
+          </Col>
+          <Col sm={12} md={6} style={{ marginBottom: "30px" }}>
+            <Container className="p-3">
+              <Row>
+                <Col sm={12}>
+                  <h1>About Me</h1>
+                </Col>
+              </Row>
+            </Container>
+            <Container>
+              <Row className="p1">
+                <Col sm={12} md={12}>
+                  <p className="lead">
+                    Hello I'm Francis Luigie Quenano. I'm originally from the
+                    Philippines and now currently residing in Terrytown,
+                    Louisiana.
+                  </p>
+                  <p className="lead">
+                    I graduated from&nbsp;
+                    <a href="https://www.adamson.edu.ph/v1/" target="_blank">
+                      Adamson University
+                    </a>
+                    &nbsp;in the Philippines with a degree in&nbsp;
+                    <a
+                      href="https://www.adamson.edu.ph/v1/?page=curriculum&cid=%20%20%20%203r&curryear=2013"
+                      target="_blank"
+                    >
+                      B.S. in Information Technology
+                    </a>{" "}
+                    specializing in web-based and desktop application
+                    development. &nbsp;
+                  </p>
+                  <p className="lead">
+                    Recently I have been improving my skills in ReactJS and
+                    NodeJS with MongoDB as my database ang git for version
+                    control.
+                  </p>
+                </Col>
+              </Row>
+            </Container>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <hr />
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
             <Row>
-              <Col sm={12}>
-                <Row>
-                  <h1>Projects</h1>
-                </Row>
-                <Row style={{ margin: "50px 20px" }}>
-                  <Col md={4} style={{ margin: "10px 0" }}>
-                    <Card style={{ width: "100%", height: "350px" }}>
-                      <Card.Img variant="top" src="holder.js/100px180" />
-                      <Card.Body>
-                        <Card.Title>Blog</Card.Title>
-                        <Card.Text>
-                          Built with ReactJS, NodeJS and MongoDB with Clean Blog
-                          as template.
-                        </Card.Text>
-                        <Row className="text-center">
-                          <Col md={12}>
-                            <ButtonGroup>
-                              <Button
-                                variant="primary"
-                                style={{ marginLeft: "2px" }}
-                              >
-                                Demo
-                              </Button>
-                              <Button
-                                variant="primary"
-                                style={{ marginLeft: "2px" }}
-                              >
-                                Code
-                              </Button>
-                            </ButtonGroup>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col md={4} style={{ margin: "10px 0" }}>
-                    <Card style={{ width: "100%", height: "350px" }}>
-                      <Card.Img variant="top" src="holder.js/100px180" />
-                      <Card.Body>
-                        <Card.Title>Card Title</Card.Title>
-                        <Card.Text>
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col md={4} style={{ margin: "10px 0" }}>
-                    <Card style={{ width: "100%", height: "350px" }}>
-                      <Card.Img variant="top" src="holder.js/100px180" />
-                      <Card.Body>
-                        <Card.Title>Card Title</Card.Title>
-                        <Card.Text>
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
+              <h1>Projects</h1>
+            </Row>
+            <Row style={{ margin: "50px 20px" }}>
+              <Col md={4} style={{ margin: "10px 0" }}>
+                <Card style={{ width: "100%", height: "350px" }}>
+                  <Card.Img variant="top" src="holder.js/100px180" />
+                  <Card.Body>
+                    <Card.Title>Blog</Card.Title>
+                    <Card.Text>
+                      Built with ReactJS, NodeJS and MongoDB with Clean Blog as
+                      template.
+                    </Card.Text>
+                    <Row className="text-center">
+                      <Col md={12}>
+                        <ButtonGroup>
+                          <Button
+                            variant="primary"
+                            style={{ marginLeft: "2px" }}
+                          >
+                            Demo
+                          </Button>
+                          <Button
+                            variant="primary"
+                            style={{ marginLeft: "2px" }}
+                          >
+                            Code
+                          </Button>
+                        </ButtonGroup>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={4} style={{ margin: "10px 0" }}>
+                <Card style={{ width: "100%", height: "350px" }}>
+                  <Card.Img variant="top" src="holder.js/100px180" />
+                  <Card.Body>
+                    <Card.Title>Card Title</Card.Title>
+                    <Card.Text>
+                      Some quick example text to build on the card title and
+                      make up the bulk of the card's content.
+                    </Card.Text>
+                    <Button variant="primary">Go somewhere</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={4} style={{ margin: "10px 0" }}>
+                <Card style={{ width: "100%", height: "350px" }}>
+                  <Card.Img variant="top" src="holder.js/100px180" />
+                  <Card.Body>
+                    <Card.Title>Card Title</Card.Title>
+                    <Card.Text>
+                      Some quick example text to build on the card title and
+                      make up the bulk of the card's content.
+                    </Card.Text>
+                    <Button variant="primary">Go somewhere</Button>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Col>

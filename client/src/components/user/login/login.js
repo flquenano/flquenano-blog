@@ -20,7 +20,7 @@ const emailSignIn = async ({ email, password }) => {
     if (response.status < 399) {
       const res = await response.json();
       await Cookies.set("token", res.token);
-      console.log(res);
+      // Add Context here
       return { status: true, data: res };
     } else {
       return { status: false, msg: "Failed to Login" };

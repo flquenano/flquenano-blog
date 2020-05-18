@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
@@ -13,6 +13,7 @@ import Editor from "../editor/editor.component";
 import "./add-post.scss";
 const AddPost = () => {
   const history = useHistory();
+  const { url } = useRouteMatch();
   const MySwal = withReactContent(Swal);
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -64,10 +65,16 @@ const AddPost = () => {
       data.append("content", editorJSON);
       data.append("image_banner", form.img);
       const res = await API.create("/posts", true, data);
-      console.log(res);
-      history.push({
-        pathname: `/posts/${form.title.replace(/\s/g, "-")}`,
-        state: { id: res.id }
+      MySwal.fire({
+        title: <p>Posted!</p>,
+        icon: "success",
+        showConfirmButton: true,
+        onClose: () => {
+          history.push({
+            pathname: `/blog/posts/${form.title.replace(/\s/g, "-")}`,
+            state: { id: res.id }
+          });
+        }
       });
     } catch (e) {
       console.log(e);

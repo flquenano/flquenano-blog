@@ -1,7 +1,145 @@
-#homepage {
-  .title {
-    font-weight: 600;
-    color: #1e1e1e;
-    font-size: 1.1rem;
+@mixin background-cover() {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#landing {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: url("/portfolio-bg.jpg");
+  background-color: transparent;
+  background-position: center center;
+  background-attachment: scroll;
+  position: relative;
+  height: 100vh;
+  color: #fff;
+
+  @include background-cover;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #212529;
+    opacity: 0.7;
   }
+
+  .btn-container {
+    width: auto;
+    .scroll-down {
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      border: 2px #fff solid;
+      border-radius: 50%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+      &:hover {
+        color: #0085a1;
+        border: 2px #0085a1 solid;
+        background-color: #fff;
+        transition: all 100ms ease-in;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .page-heading {
+      padding: 100px 0 75px;
+      font-size: 50px;
+    }
+    .subheading {
+      font-size: 23px !important;
+    }
+  }
+
+  .page-heading {
+    padding: 50px 0 50px;
+    color: white;
+    @media only screen and (min-width: 768px) {
+      padding: 30% 0px 40%;
+    }
+  }
+  .page-heading {
+    text-align: center;
+    h1 {
+      font-size: 70px;
+      margin-top: 0;
+    }
+    .subheading {
+      font-size: 30px;
+      font-weight: 300;
+      line-height: 1.1;
+      display: block;
+      margin: 10px 0 0;
+      word-wrap: break-word;
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+        font-size: 70px;
+        word-wrap: normal;
+      }
+    }
+  }
+
+  .post-heading {
+    h1 {
+      font-size: 28px;
+    }
+    .meta,
+    .subheading {
+      line-height: 1.1;
+      display: block;
+    }
+    .subheading {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 10px 0 30px;
+    }
+    .meta {
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      a {
+        color: #fff;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+        font-size: 40px;
+      }
+      .subheading {
+        font-size: 30px;
+      }
+    }
+  }
+}
+
+.about-me {
+  background-color: #fff;
+  width: auto;
+  height: auto;
+  margin: 5% 0;
+  -moz-box-shadow: 1px 1px 1px black;
+  -webkit-box-shadow: 1px 1px 1px black;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+  .my-info {
+    .title {
+      font-weight: 600;
+      color: #1e1e1e;
+      font-size: 1.1rem;
+    }
+    font-size: 1.2rem;
+    margin: 20px 0;
+    height: auto;
+    width: auto;
+  }
+}
+
+html body {
+  background-color: rgba(204, 204, 204, 0.35);
 }

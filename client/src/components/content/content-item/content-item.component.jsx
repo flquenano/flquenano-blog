@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import moment from "moment";
 import "./_content-item.scss";
 
@@ -12,12 +12,13 @@ const ContentItem = ({
     user: { account_name }
   }
 }) => {
+  const { url } = useRouteMatch();
   return (
     <>
       <div className="post-preview">
         <Link
           to={{
-            pathname: `posts/${title.replace(/\s/g, "-")}`,
+            pathname: `${url}/posts/${title.replace(/\s/g, "-")}`,
             state: { id: _id }
           }}
         >

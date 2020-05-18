@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import draftToHTML from "draftjs-to-html";
 import API from "../../util/fetchAPI.util";
@@ -10,22 +10,24 @@ import SpinnerLoader from "../spinner/spinner.component";
 import "./_post.scss";
 
 const PostComponent = () => {
-  // const { id } = useParams();
   const location = useLocation();
-  const id = location.state.id;
+  const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState({});
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await API.get(`/posts/${id}`, false);
+      if (location.state === undefined) {
+        return history.push("/blog/404");
+      }
+      const res = await API.get(`/posts/${location.state.id}`, false);
       setPost(res);
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     };
     fetchPost();
-  }, [id]);
+  }, []);
 
   //Centers Image
   const convertImages = (draft) => {
