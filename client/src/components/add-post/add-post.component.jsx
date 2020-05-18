@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { EditorState, convertToRaw } from "draft-js";
@@ -6,6 +6,7 @@ import bsCustomFileInput from "bs-custom-file-input";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+import authContext from "../../context/store";
 import { NavBackground } from "../navigation/nav.background";
 import API from "../../util/fetchAPI.util";
 import Editor from "../editor/editor.component";
@@ -15,6 +16,7 @@ const AddPost = () => {
   const history = useHistory();
   const { url } = useRouteMatch();
   const MySwal = withReactContent(Swal);
+  const [{ isLoggedIn }, dispatch] = useContext(authContext);
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [validated, setValidated] = useState(false);
@@ -27,6 +29,9 @@ const AddPost = () => {
 
   //didMount
   useEffect(() => {
+    if (!isLoggedIn) {
+      history.push("/blog/login");
+    }
     bsCustomFileInput.init();
   }, []);
 

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
+import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -8,6 +9,7 @@ import THead from "./table/th.component";
 import TData from "./table/td.component";
 
 import API from "../../util/fetchAPI.util";
+import authContext from "../../context/store";
 import Spinner from "../spinner/spinner.component";
 import { NavBackground } from "../navigation/nav.background";
 
@@ -17,12 +19,16 @@ import "./dashboard.scss";
 const Dashboard = () => {
   const history = useHistory();
   const swal = withReactContent(Swal);
+  const [{ isLoggedIn }, dispatch] = useContext(authContext);
   const [loading, setLoading] = useState(true);
   const [delPost, setDeletePost] = useState(1);
   const [posts, setPosts] = useState({});
   const theadLabels = ["Title", "Date Added", "Options"];
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return history.push("/blog/login");
+    }
     setLoading(true);
     const getAll = async () => {
       const res = await API.get(`/posts/my-posts`, true);
@@ -38,9 +44,9 @@ const Dashboard = () => {
   const sessionExpired = () =>
     swal
       .fire({
-        title: "Session Expired!",
+        title: "Please Login Again!",
         icon: "warning",
-        text: "Please Login Again!",
+        text: "",
         timer: 2000,
         showConfirmButton: false,
         allowOutsideClick: false

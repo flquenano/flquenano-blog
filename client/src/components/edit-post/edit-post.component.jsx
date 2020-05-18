@@ -35,7 +35,6 @@ const AddPost = () => {
   useEffect(() => {
     bsCustomFileInput.init();
     const getPost = async () => {
-      console.log(location.state);
       if (location.state === undefined) {
         return history.push("/blog/404");
       }

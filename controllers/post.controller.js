@@ -47,10 +47,8 @@ exports.get_posts = catchAsync(async (req, res) => {
       select: "account_name"
     }),
     req.query
-  )
-    .paginate()
-    .sort();
-  const docs = await features.query;
+  ).paginate();
+  const docs = await features.query.sort({ date_added: -1 });
   const cnt = await PostModel.find({ active: true });
   res.status(200).json({
     status: "success",
@@ -63,7 +61,10 @@ exports.get_posts = catchAsync(async (req, res) => {
 
 exports.get_my_posts = catchAsync(async (req, res) => {
   console.log(req.user);
-  const doc_cnt = await PostModel.find({ user: req.user._id, active: true });
+  const doc_cnt = await PostModel.find({
+    user: req.user._id,
+    active: true
+  }).sort({ date_added: -1 });
   res.status(200).json({
     status: "success",
     data: {

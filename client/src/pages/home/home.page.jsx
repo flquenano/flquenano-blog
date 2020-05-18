@@ -13,6 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./home.scss";
 const HomePage = () => {
+  const scrollDown = () => {
+    const height = window.screen.height - window.screen.height * 0.1;
+    window.scroll({ top: height, left: 0, behavior: "smooth" });
+  };
   return (
     <>
       <div id="landing">
@@ -29,7 +33,7 @@ const HomePage = () => {
           <Row>
             <Col md={12}>
               <div className="btn-container">
-                <div className="scroll-down">
+                <div className="scroll-down" onClick={() => scrollDown()}>
                   <FontAwesomeIcon icon={faAngleDown} size="3x" />
                 </div>
               </div>
@@ -86,7 +90,7 @@ const HomePage = () => {
                         Resume
                       </Button>
 
-                      <Button
+                      {/* <Button
                         style={{
                           fontSize: "12px",
                           width: "auto",
@@ -95,7 +99,7 @@ const HomePage = () => {
                         }}
                       >
                         My Grades
-                      </Button>
+                      </Button> */}
                     </Col>
                   </Row>
                 </Col>
@@ -186,6 +190,8 @@ const HomePage = () => {
                   <Card.Body>
                     <Card.Title>Blog</Card.Title>
                     <Card.Text>
+                      <b>[Still in Development]</b>
+                      <br />
                       Built with ReactJS, NodeJS and MongoDB with Clean Blog as
                       template.
                     </Card.Text>
@@ -207,32 +213,6 @@ const HomePage = () => {
                         </ButtonGroup>
                       </Col>
                     </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4} style={{ margin: "10px 0" }}>
-                <Card style={{ width: "100%", height: "350px" }}>
-                  <Card.Img variant="top" src="holder.js/100px180" />
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4} style={{ margin: "10px 0" }}>
-                <Card style={{ width: "100%", height: "350px" }}>
-                  <Card.Img variant="top" src="holder.js/100px180" />
-                  <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
                   </Card.Body>
                 </Card>
               </Col>

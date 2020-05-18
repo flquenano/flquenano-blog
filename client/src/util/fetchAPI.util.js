@@ -19,7 +19,6 @@ async function request(
     myHeaders.append("Content-Type", "application/json");
   }
 
-  console.log(myHeaders);
   let options = {
     method,
     mode: "cors",

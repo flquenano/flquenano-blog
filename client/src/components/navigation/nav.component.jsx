@@ -1,21 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./navigation.scss";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch, useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
+import authContext from "../../context/store";
 
 const NavigationBar = () => {
   let MinWidth = 992;
   let previousTop = 0;
 
   const { url } = useRouteMatch();
+  const history = useHistory();
+
+  const [{ isLoggedIn, name }, dispatch] = useContext(authContext);
   const [cssClasses, setCssClasses] = useState({
     isVisible: true,
     isFixed: true
   });
 
+  const logout = () => {
+    Cookies.set("token", "");
+    dispatch({ type: "LOGOUT" });
+    history.push(`${url}`);
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", scrollListener); // eslint-disable-next-line
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", scrollListener);
+    };
+  }, [isLoggedIn]);
 
   const scrollListener = function () {
     const headerHeight = document.getElementById("mainNav").offsetHeight;
@@ -24,7 +38,6 @@ const NavigationBar = () => {
     if (MinWidth < window.innerWidth) {
       //check if user is scrolling up
       if (currentTop < previousTop) {
-        console.log("Scroll Up");
         //if scrolling up...
         if (currentTop > 0 && cssClasses.isFixed) {
           setCssClasses({
@@ -55,8 +68,7 @@ const NavigationBar = () => {
 
   const navItems = [
     { nav: "Home", link: `${url}` },
-    { nav: "Dashboard", link: `${url}/dashboard` },
-    { nav: "Blog", link: `${url}` }
+    { nav: "Dashboard", link: `${url}/dashboard` }
   ];
   return (
     <>
@@ -79,16 +91,54 @@ const NavigationBar = () => {
             className="justify-content-center navbar-nav"
             id="navbarResponsive"
           >
-            {navItems.map((item, idx) => (
-              <Nav.Link
-                key={idx}
-                as={Link}
-                to={item.link}
-                className="nav-item nav-link"
-              >
-                {item.nav}
-              </Nav.Link>
-            ))}
+            <Nav>
+              {navItems.map((item, idx) => (
+                <Nav.Link
+                  key={idx}
+                  as={Link}
+                  to={item.link}
+                  className="nav-item nav-link"
+                >
+                  {item.nav}
+                </Nav.Link>
+              ))}
+            </Nav>
+            <Nav className="justify-content-end" style={{ width: "100%" }}>
+              {isLoggedIn ? (
+                <>
+                  <Nav.Link
+                    className="nav-item nav-link"
+                    style={{ borderRight: "2px solid #fff" }}
+                  >
+                    Settings
+                  </Nav.Link>
+                  <Nav.Link
+                    className="nav-item nav-link"
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </Nav.Link>
+                </>
+              ) : (
+                <>
+                  <Nav.Link
+                    className="nav-item nav-link"
+                    style={{ borderRight: "2px solid #fff" }}
+                    as={Link}
+                    to="/blog/login"
+                  >
+                    Login
+                  </Nav.Link>
+                  <Nav.Link
+                    className="nav-item nav-link"
+                    as={Link}
+                    to="/blog/register"
+                  >
+                    Register
+                  </Nav.Link>
+                </>
+              )}
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>

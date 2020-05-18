@@ -70,11 +70,11 @@ const Register = () => {
   ];
 
   const initialValues = {
-    name: "Aivee",
-    email: "aiveeconsigo@gmail.com",
-    acctName: "Beaiks",
-    password: "123123",
-    passwordConfirm: "123123"
+    name: "",
+    email: "",
+    acctName: "",
+    password: "",
+    passwordConfirm: ""
   };
 
   const register = async (user) => {

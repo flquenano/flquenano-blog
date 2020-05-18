@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "../../../hooks/form.hook.jsx";
 import {
   Container,
@@ -14,13 +14,16 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 import emailSignIn from "./login";
+import authContext from "../../../context/store";
 
 import "./login.scss";
 
 const LoginComponent = () => {
   const [loader, setLoader] = useState(false);
+  const [state, dispatch] = useContext(authContext);
   const history = useHistory();
   const swal = withReactContent(Swal);
+
   const { values, handleChange } = useForm({
     email: "flcq27@gmail.com",
     password: "flcq0727"
@@ -31,6 +34,7 @@ const LoginComponent = () => {
     const res = await emailSignIn(values);
     setLoader(false);
     if (res.status) {
+      dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
       swalSucess();
     } else {
       swalFailed();
