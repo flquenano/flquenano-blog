@@ -4,8 +4,9 @@ import "./header.scss";
 
 const HeaderComponent = ({ url, title, subTitle }) => {
   const bgImg = {
-    backgroundImage: `url("http://localhost:5000/uploads/${url}")`
+    backgroundImage: `url("${url}")`
   };
+
   return (
     <>
       <header className="masthead" style={bgImg}>

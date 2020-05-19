@@ -4,8 +4,8 @@ const UploadModel = require("../models/upload.model");
 const catchAsync = require("../utils/catchAsync.util");
 
 exports.upload_file = catchAsync(async (req, res) => {
-  console.log(req.file);
-
+  console.log("uploadFile: ", req.file);
+  console.log(req.file.filename);
   const file = {
     user: "",
     filename: "",
@@ -19,7 +19,7 @@ exports.upload_file = catchAsync(async (req, res) => {
     status: 200,
     success: true,
     data: {
-      link: `${process.env.IMG}images/${req.file.filename}`
+      link: `${req.file.location}`
     }
   });
 });

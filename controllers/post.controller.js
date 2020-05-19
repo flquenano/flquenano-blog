@@ -11,12 +11,13 @@ exports.create_post = catchAsync(async (req, res) => {
   if (req.file === undefined) {
     post = {
       ...post,
-      image_banner: "f6703de376027ac6bdf16f7622b93e03d6f1.jpg"
+      image_banner:
+        "https://flquenano-blog-uploads.s3.us-east-2.amazonaws.com/banner/default-bg.jpg"
     };
   } else {
     post = {
       ...post,
-      image_banner: req.file.filename
+      image_banner: req.file.location
     };
   }
   const doc = await PostModel.create(post);
@@ -41,7 +42,7 @@ exports.get_posts = catchAsync(async (req, res) => {
   const features = new APIFeatures(
     PostModel.find(
       { active: true },
-      { id: 1, title: 1, subtitle: 1, user: 1, date_added: 1 }
+      { id: 1, title: 1, subtitle: 1, image_banner: 1, user: 1, date_added: 1 }
     ).populate({
       path: "user",
       select: "account_name"

@@ -52,7 +52,7 @@ const PostComponent = () => {
         ) : (
           <>
             <Header
-              url={`banner/${post.image_banner}`}
+              url={post.image_banner}
               title={post.title}
               subTitle={post.subtitle}
             />

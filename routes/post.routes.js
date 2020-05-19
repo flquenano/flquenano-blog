@@ -4,7 +4,7 @@ const router = express.Router();
 const { protect } = require("../controllers/auth.controller");
 
 const { upload } = require("../utils/multer.util");
-const uploadFile = upload("./uploads/banner", 1024 * 1024 * 2); // 2MB
+const uploadFile = upload("banner/", 1024 * 1024 * 2); // 2MB
 
 const {
   get_post,

@@ -46,9 +46,6 @@ const sendErrorProd = (err, req, res) => {
   } else {
     //Programming/Unknown Error
     //console.log("ERROR!", err);
-    response(res, 500, {
-      message: "Something went wrong!"
-    });
 
     // END of API Err Handler
 

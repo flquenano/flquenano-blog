@@ -49,7 +49,7 @@ const HomePage = () => {
               <Row>
                 <Col xs={12} sm={4} md={5}>
                   <Image
-                    src="http://localhost:5000/uploads/images/65965925290be8da4cf15827e3df6428f83c.jpg"
+                    src="https://flquenano-blog-uploads.s3.us-east-2.amazonaws.com/portfolio/2x2.jpg"
                     rounded
                     style={{
                       width: "150px",
@@ -79,16 +79,21 @@ const HomePage = () => {
                   </div>
                   <Row>
                     <Col>
-                      <Button
-                        style={{
-                          fontSize: "12px",
-                          width: "auto",
-                          padding: "5px 7px",
-                          marginRight: "2px"
-                        }}
+                      <a
+                        href="https://flquenano-blog-uploads.s3.us-east-2.amazonaws.com/portfolio/Francis+Luigie+Que%C3%B1ano+CV+.pdf"
+                        target="_blank"
                       >
-                        Resume
-                      </Button>
+                        <Button
+                          style={{
+                            fontSize: "12px",
+                            width: "auto",
+                            padding: "5px 7px",
+                            marginRight: "2px"
+                          }}
+                        >
+                          Resume
+                        </Button>
+                      </a>
 
                       {/* <Button
                         style={{
@@ -165,7 +170,7 @@ const HomePage = () => {
                   </p>
                   <p className="lead">
                     Recently I have been improving my skills in ReactJS and
-                    NodeJS with MongoDB as my database ang git for version
+                    NodeJS with MongoDB as my database and git for version
                     control.
                   </p>
                 </Col>

@@ -31,12 +31,12 @@ app.use(process.env.URL_BASE + "/user", user_routes);
 app.use(process.env.URL_BASE + "/posts", post_routes);
 app.use(process.env.URL_BASE + "/upload", upload_routes);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static("client/build"));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+//   });
+// }
 app.all("*", (req, res) => {
   res.status(404).send(`Can't Find ${req.originalUrl} on this server`);
 });
