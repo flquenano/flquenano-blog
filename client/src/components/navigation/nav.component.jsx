@@ -113,7 +113,7 @@ const NavigationBar = () => {
                     className="nav-item nav-link"
                     style={{ borderRight: "2px solid #fff" }}
                   >
-                    {`${name}: Settings`}
+                    Settings
                   </Nav.Link>
                   <Nav.Link
                     className="nav-item nav-link"
