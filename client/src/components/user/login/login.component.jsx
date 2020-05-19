@@ -25,8 +25,8 @@ const LoginComponent = () => {
   const swal = withReactContent(Swal);
 
   const { values, handleChange } = useForm({
-    email: "flcq27@gmail.com",
-    password: "flcq0727"
+    email: "",
+    password: ""
   });
 
   const signIn = async () => {

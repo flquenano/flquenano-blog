@@ -92,16 +92,18 @@ const NavigationBar = () => {
             id="navbarResponsive"
           >
             <Nav>
-              {navItems.map((item, idx) => (
+              <Nav.Link as={Link} to={url} className="nav-item nav-link">
+                Home
+              </Nav.Link>
+              {isLoggedIn ? (
                 <Nav.Link
-                  key={idx}
                   as={Link}
-                  to={item.link}
+                  to={`${url}/dashboard`}
                   className="nav-item nav-link"
                 >
-                  {item.nav}
+                  Dashboard
                 </Nav.Link>
-              ))}
+              ) : null}
             </Nav>
             <Nav className="justify-content-end" style={{ width: "100%" }}>
               {isLoggedIn ? (
@@ -110,7 +112,7 @@ const NavigationBar = () => {
                     className="nav-item nav-link"
                     style={{ borderRight: "2px solid #fff" }}
                   >
-                    Settings
+                    {`${name}: Settings`}
                   </Nav.Link>
                   <Nav.Link
                     className="nav-item nav-link"

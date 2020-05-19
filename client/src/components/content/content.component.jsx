@@ -40,6 +40,7 @@ const Content = () => {
       console.log(res.data.posts[0]);
       console.log(res.data.posts[0].title.replace(/\s/g, "-"));
       setLoading(false);
+      window.scrollTo(0, 0);
     };
 
     getAll();
@@ -85,7 +86,7 @@ const Content = () => {
             {header.title}
           </Link>
         }
-        subTitle={header.subTitle}
+        subTitle={header.subtitle}
         url={header.image_banner}
       />
       {loading ? (

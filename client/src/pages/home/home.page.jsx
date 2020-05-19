@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { Link } from "react-router-dom";
 import "./home.scss";
 const HomePage = () => {
   const scrollDown = () => {
@@ -141,7 +141,7 @@ const HomePage = () => {
             <Container className="p-3">
               <Row>
                 <Col sm={12}>
-                  <h1>About Me</h1>
+                  <h1 style={{ margin: "20px 0" }}>About Me</h1>
                 </Col>
               </Row>
             </Container>
@@ -190,8 +190,11 @@ const HomePage = () => {
             </Row>
             <Row style={{ margin: "50px 20px" }}>
               <Col md={4} style={{ margin: "10px 0" }}>
-                <Card style={{ width: "100%", height: "350px" }}>
-                  <Card.Img variant="top" src="holder.js/100px180" />
+                <Card style={{ width: "100%", height: "auto" }}>
+                  <Card.Img
+                    variant="top"
+                    src="https://flquenano-blog-uploads.s3.us-east-2.amazonaws.com/portfolio/projects/blog-header.PNG"
+                  />
                   <Card.Body>
                     <Card.Title>Blog</Card.Title>
                     <Card.Text>
@@ -204,17 +207,25 @@ const HomePage = () => {
                       <Col md={12}>
                         <ButtonGroup>
                           <Button
+                            as={Link}
+                            to="/blog"
                             variant="primary"
                             style={{ marginLeft: "2px" }}
                           >
                             Demo
                           </Button>
-                          <Button
-                            variant="primary"
-                            style={{ marginLeft: "2px" }}
+
+                          <a
+                            href="https://github.com/flquenano/flquenano-blog"
+                            target="_blank"
                           >
-                            Code
-                          </Button>
+                            <Button
+                              variant="primary"
+                              style={{ marginLeft: "2px" }}
+                            >
+                              Code
+                            </Button>
+                          </a>
                         </ButtonGroup>
                       </Col>
                     </Row>

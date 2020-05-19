@@ -11,6 +11,7 @@ import Login from "../../components/user/login/login.component";
 import Register from "../../components/user/register/register.component";
 import Dashboard from "../../components/dashboard/dashboard.component";
 import { NotFound } from "../404/notFound.page";
+import NoticeBar from "../../components/notice-bar/notice-bar.component";
 
 const BlogPage = () => {
   const { url } = useRouteMatch();
@@ -42,6 +43,7 @@ const BlogPage = () => {
         </Route>
         <Route exact path="*" component={NotFound} />
       </Switch>
+      <NoticeBar />
     </div>
   );
 };
