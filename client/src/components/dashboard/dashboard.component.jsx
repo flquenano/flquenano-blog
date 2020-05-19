@@ -26,7 +26,7 @@ const Dashboard = () => {
   const theadLabels = ["Title", "Date Added", "Options"];
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (Cookies.get("token", { domain: "flquenano.dev" }) === undefined) {
       return history.push("/blog/login");
     }
     setLoading(true);

@@ -5,6 +5,7 @@ import { EditorState, convertToRaw } from "draft-js";
 import bsCustomFileInput from "bs-custom-file-input";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import Cookies from "js-cookie";
 
 import authContext from "../../context/store";
 import { NavBackground } from "../navigation/nav.background";
@@ -29,8 +30,8 @@ const AddPost = () => {
 
   //didMount
   useEffect(() => {
-    if (!isLoggedIn) {
-      history.push("/blog/login");
+    if (Cookies.get("token", { domain: "flquenano.dev" }) === undefined) {
+      return history.push("/blog/login");
     }
     bsCustomFileInput.init();
   }, []);
