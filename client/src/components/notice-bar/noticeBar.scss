@@ -7,4 +7,10 @@
   color: white;
   text-align: center;
   z-index: 1000;
+  a {
+    color: white;
+    &:hover {
+      color: #17a2b8;
+    }
+  }
 }
