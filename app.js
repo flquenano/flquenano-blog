@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-} else {
   app.use(morgan("common"));
+} else {
+  app.use(morgan("dev"));
 }
 
 app.use(process.env.URL_BASE + "/user", user_routes);

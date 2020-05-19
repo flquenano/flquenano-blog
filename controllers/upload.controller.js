@@ -1,3 +1,5 @@
+const aws = require("aws-sdk");
+
 const UploadModel = require("../models/upload.model");
 const catchAsync = require("../utils/catchAsync.util");
 
@@ -21,3 +23,13 @@ exports.upload_file = catchAsync(async (req, res) => {
     }
   });
 });
+
+// exports.getImgUrl = (key) =>
+//   catchAsync(async (req, res) => {
+//     const params = {
+//       bucket: process.env.AWS_BUCKET,
+//       key,
+//       expires: 120
+//     };
+//     s3.g;
+//   });

@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./home.scss";
 const HomePage = () => {
   const scrollDown = () => {
-    const height = window.screen.height - window.screen.height * 0.1;
+    const height = window.screen.height;
     window.scroll({ top: height, left: 0, behavior: "smooth" });
   };
   return (
