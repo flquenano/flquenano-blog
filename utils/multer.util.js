@@ -25,7 +25,6 @@ const cloudStorage = (path) =>
     key: function (req, file, cb) {
       let customFileName = crypto.randomBytes(18).toString("hex"),
         fileExtension = file.originalname.split(".")[1];
-      console.log("key: ", customFileName + "." + fileExtension);
       cb(null, path + customFileName + "." + fileExtension);
     }
   });

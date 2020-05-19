@@ -20,14 +20,12 @@ const Dashboard = () => {
   const history = useHistory();
   const swal = withReactContent(Swal);
   const [{ isLoggedIn }, dispatch] = useContext(authContext);
-  const [loading, setLoading] = useState(true);
-  const [delPost, setDeletePost] = useState(1);
-  const [posts, setPosts] = useState({});
-  const theadLabels = ["Title", "Date Added", "Options"];
 
   useEffect(() => {
     if (Cookies.get("token") === undefined) {
       return history.push("/blog/login");
+    } else {
+      dispatch({ type: "LOGIN", payload: { name: Cookies.get("name") } });
     }
     setLoading(true);
     const getAll = async () => {
