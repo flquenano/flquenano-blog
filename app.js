@@ -22,9 +22,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("common"));
-} else {
   app.use(morgan("dev"));
+} else {
+  app.use(morgan("common"));
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 app.use(process.env.URL_BASE + "/user", user_routes);

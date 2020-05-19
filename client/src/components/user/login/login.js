@@ -4,7 +4,7 @@ const emailSignIn = async ({ email, password }) => {
   try {
     console.log(JSON.stringify({ email, password }));
     // Default options are marked with *
-    const response = await fetch("http://localhost:5000/api/v1/user/login", {
+    const response = await fetch("/api/v1/user/login", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
