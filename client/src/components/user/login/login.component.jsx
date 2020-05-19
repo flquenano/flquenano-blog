@@ -34,7 +34,7 @@ const LoginComponent = () => {
     const res = await emailSignIn(values);
     setLoader(false);
     if (res.status) {
-      dispatch({ type: "LOGIN", payload: { name: res.user.name } });
+      dispatch({ type: "LOGIN", payload: { name: data.res.user.name } });
       swalSucess();
     } else {
       swalFailed();
