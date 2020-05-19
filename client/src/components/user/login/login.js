@@ -18,6 +18,7 @@ const emailSignIn = async ({ email, password }) => {
     });
     if (response.status < 399) {
       const res = await response.json();
+      console.log(res);
       await Cookies.set("token", res.token, { domain: "flquenano.dev" });
       await Cookies.set("name", res.user.name, {
         domain: "flquenano.dev"
