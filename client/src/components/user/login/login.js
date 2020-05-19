@@ -19,7 +19,7 @@ const emailSignIn = async ({ email, password }) => {
     if (response.status < 399) {
       const res = await response.json();
       await Cookies.set("token", res.token, { domain: "flquenano.dev" });
-      await Cookies.set("name", res.data.user.name, {
+      await Cookies.set("name", res.user.name, {
         domain: "flquenano.dev"
       });
       // Add Context here
