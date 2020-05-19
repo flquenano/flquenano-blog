@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import "./home.scss";
 const HomePage = () => {
   const scrollDown = () => {
-    const height = window.screen.height;
+    const height = window.screen.height - window.screen.height * 0.1;
     window.scroll({ top: height, left: 0, behavior: "smooth" });
   };
   return (
