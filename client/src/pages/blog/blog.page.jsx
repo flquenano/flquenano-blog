@@ -24,7 +24,7 @@ const BlogPage = () => {
     if (token !== undefined) {
       dispatch({ type: "LOGIN", payload: { name: Cookies.get("name") } });
     }
-  });
+  }, []);
 
   return (
     <div className="App" as={Container}>
