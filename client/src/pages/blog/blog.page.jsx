@@ -20,11 +20,11 @@ const BlogPage = () => {
   const { url } = useRouteMatch();
   const [state, dispatch] = useContext(authContext);
   useEffect(() => {
-    const token = Cookies.get("token", { domain: "flquenano.dev" });
+    const token = Cookies.get("token");
     if (token !== undefined) {
       dispatch({ type: "LOGIN", payload: { name: Cookies.get("name") } });
     }
-  }, []);
+  });
 
   return (
     <div className="App" as={Container}>

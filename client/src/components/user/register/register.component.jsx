@@ -103,8 +103,8 @@ const Register = () => {
           showConfirmButton: false
         }).then(function () {
           dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
-          Cookies.set("token", res.token, { domain: "flquenano.dev" });
-          Cookies.set("name", res.user.name, { domain: "flquenano.dev" });
+          Cookies.set("token", res.token);
+          Cookies.set("name", res.user.name);
           history.push({
             pathname: "/dashboard"
           });

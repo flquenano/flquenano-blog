@@ -19,8 +19,8 @@ const NavigationBar = () => {
   });
 
   const logout = () => {
-    Cookies.remove("token", { domain: "flquenano.dev" });
-    Cookies.remove("name", { domain: "flquenano.dev" });
+    Cookies.remove("token");
+    Cookies.remove("name");
     dispatch({ type: "LOGOUT" });
     history.push(`${url}`);
   };

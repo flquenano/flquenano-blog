@@ -30,7 +30,7 @@ const AddPost = () => {
 
   //didMount
   useEffect(() => {
-    if (Cookies.get("token", { domain: "flquenano.dev" }) === undefined) {
+    if (Cookies.get("token") === undefined) {
       return history.push("/blog/login");
     }
     bsCustomFileInput.init();
