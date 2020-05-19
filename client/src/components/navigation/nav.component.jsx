@@ -19,7 +19,8 @@ const NavigationBar = () => {
   });
 
   const logout = () => {
-    Cookies.set("token", "");
+    Cookies.remove("token", { domain: "flquenano.dev" });
+    Cookies.remove("name", { domain: "flquenano.dev" });
     dispatch({ type: "LOGOUT" });
     history.push(`${url}`);
   };
