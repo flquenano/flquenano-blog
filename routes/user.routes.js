@@ -11,7 +11,6 @@ const {
   deactivate_account
 } = require("../controllers/auth.controller");
 
-console.log("going good!");
 router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forget_password);

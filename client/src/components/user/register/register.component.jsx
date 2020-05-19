@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import FormBuilder from "../../form/form-builder.component";
 import { Container, Row, Col, Card } from "react-bootstrap";
@@ -10,10 +10,12 @@ import API from "../../../util/fetchAPI.util";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import authContext from "../../../context/store";
 
 const Register = () => {
   const MySwal = withReactContent(Swal);
   const history = useHistory();
+  const [state, dispatch] = useContext(authContext);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -100,7 +102,9 @@ const Register = () => {
           timer: 1000,
           showConfirmButton: false
         }).then(function () {
-          Cookies.set("token", res.token);
+          dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
+          Cookies.set("token", res.token, { domain: "flquenano.dev" });
+          Cookies.set("name", res.data.user.name, { domain: "flquenano.dev" });
           history.push({
             pathname: "/dashboard"
           });

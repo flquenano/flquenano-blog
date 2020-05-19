@@ -37,8 +37,6 @@ const Content = () => {
       }
       setHeader(res.data.posts[0]);
       setPosts(res.data.posts);
-      console.log(res.data.posts[0]);
-      console.log(res.data.posts[0].title.replace(/\s/g, "-"));
       setLoading(false);
       window.scrollTo(0, 0);
     };

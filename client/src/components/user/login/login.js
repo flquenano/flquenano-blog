@@ -2,7 +2,6 @@ import Cookies from "js-cookie";
 
 const emailSignIn = async ({ email, password }) => {
   try {
-    console.log(JSON.stringify({ email, password }));
     // Default options are marked with *
     const response = await fetch("/api/v1/user/login", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -19,7 +18,10 @@ const emailSignIn = async ({ email, password }) => {
     });
     if (response.status < 399) {
       const res = await response.json();
-      await Cookies.set("token", res.token);
+      await Cookies.set("token", res.token, { domain: "flquenano.dev" });
+      await Cookies.set("name", res.data.user.name, {
+        domain: "flquenano.dev"
+      });
       // Add Context here
       return { status: true, data: res };
     } else {

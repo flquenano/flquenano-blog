@@ -61,7 +61,6 @@ exports.get_posts = catchAsync(async (req, res) => {
 });
 
 exports.get_my_posts = catchAsync(async (req, res) => {
-  console.log(req.user);
   const doc_cnt = await PostModel.find({
     user: req.user._id,
     active: true
