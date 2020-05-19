@@ -24,6 +24,12 @@ const LoginComponent = () => {
   const history = useHistory();
   const swal = withReactContent(Swal);
 
+  useEffect(() => {
+    if (state.isLoggedIn) {
+      history.push("/blog/dashboard");
+    }
+  }, []);
+
   const { values, handleChange } = useForm({
     email: "",
     password: ""
@@ -34,7 +40,7 @@ const LoginComponent = () => {
     const res = await emailSignIn(values);
     setLoader(false);
     if (res.status) {
-      dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
+      dispatch({ type: "LOGIN", payload: { name: res.user.name } });
       swalSucess();
     } else {
       swalFailed();
@@ -63,6 +69,12 @@ const LoginComponent = () => {
       allowOutsideClick: false
     });
 
+  const keyPress = (e) => {
+    if (e.keyCode == 13) {
+      signIn();
+    }
+  };
+
   const spinner = () => (
     <div className="spinner">
       <Spinner animation="border" className="spinner-icon" />
@@ -79,6 +91,7 @@ const LoginComponent = () => {
             placeholder="Email"
             value={values.email || ""}
             onChange={handleChange}
+            onKeyDown={keyPress}
             name="email"
           />
         </Form.Group>
@@ -88,6 +101,7 @@ const LoginComponent = () => {
             placeholder="Password"
             value={values.password || ""}
             onChange={handleChange}
+            onKeyDown={keyPress}
             name="password"
           />
         </Form.Group>
