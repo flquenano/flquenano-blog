@@ -12,18 +12,20 @@ import { NavBackground } from "../navigation/nav.background";
 import API from "../../util/fetchAPI.util";
 import Editor from "../editor/editor.component";
 
+import Spinner from "../spinner/spinner.component";
+
 import "./add-post.scss";
 const AddPost = () => {
   const history = useHistory();
   const { url } = useRouteMatch();
   const MySwal = withReactContent(Swal);
   const [{ isLoggedIn }, dispatch] = useContext(authContext);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [validated, setValidated] = useState(false);
   const [form, setForm] = useState({
-    title: "My One and Only",
-    subtitle: "A Poem dedicated to the person that colored my world",
+    title: "",
+    subtitle: "",
     content: "",
     img: ""
   });
@@ -49,6 +51,7 @@ const AddPost = () => {
 
   const submit = async (e) => {
     try {
+      setIsLoading(true);
       setValidated(true);
       if (form.title === "") {
         return;
@@ -84,70 +87,75 @@ const AddPost = () => {
       });
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <NavBackground />
-      <Container>
-        <Row className="add-post">
-          <Col lg={8} md={10} className="mx-auto">
-            <Form noValidate validated={validated}>
-              <Form.Group controlId="post_title">
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Title"
-                  onChange={userInput}
-                  name="title"
-                  value={form.title}
-                  required
-                />
-              </Form.Group>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Container>
+          <Row className="add-post">
+            <Col lg={8} md={10} className="mx-auto">
+              <Form noValidate validated={validated}>
+                <Form.Group controlId="post_title">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Title"
+                    onChange={userInput}
+                    name="title"
+                    value={form.title}
+                    required
+                  />
+                </Form.Group>
 
-              <Form.Group controlId="post_subtitle">
-                <Form.Label>Sub Title:</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter subtitle"
-                  onChange={userInput}
-                  name="subtitle"
-                  value={form.subtitle}
-                />
-                <Form.Text className="text-muted">
-                  Text smaller and below the title
-                </Form.Text>
-              </Form.Group>
-              <Form.Group controlId="post_content">
-                <Editor
-                  editorState={editorState}
-                  editorStateChange={setEditorState}
-                />
-              </Form.Group>
-              <Form.Group style={{ margin: "30px 0px" }}>
-                <Form.File
-                  id="custom-file"
-                  label="Image Banner"
-                  custom
-                  onChange={fileInput}
-                  name="img"
-                />
-                <Form.Text className="text-muted">
-                  Suggested size for the banner image is 1366 x 768 and Maximum
-                  size of 2MB
-                </Form.Text>
-              </Form.Group>
+                <Form.Group controlId="post_subtitle">
+                  <Form.Label>Sub Title:</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter subtitle"
+                    onChange={userInput}
+                    name="subtitle"
+                    value={form.subtitle}
+                  />
+                  <Form.Text className="text-muted">
+                    Text smaller and below the title
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group controlId="post_content">
+                  <Editor
+                    editorState={editorState}
+                    editorStateChange={setEditorState}
+                  />
+                </Form.Group>
+                <Form.Group style={{ margin: "30px 0px" }}>
+                  <Form.File
+                    id="custom-file"
+                    label="Image Banner"
+                    custom
+                    onChange={fileInput}
+                    name="img"
+                  />
+                  <Form.Text className="text-muted">
+                    Suggested size for the banner image is 1366 x 768 and
+                    Maximum size of 2MB
+                  </Form.Text>
+                </Form.Group>
 
-              <Form.Group className="form-sbmit">
-                <Button style={{ float: "right" }} onClick={submit}>
-                  Submit
-                </Button>
-              </Form.Group>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+                <Form.Group className="form-sbmit">
+                  <Button style={{ float: "right" }} onClick={submit}>
+                    Submit
+                  </Button>
+                </Form.Group>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   );
 };
