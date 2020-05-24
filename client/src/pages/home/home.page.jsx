@@ -184,56 +184,62 @@ const HomePage = () => {
           </Col>
         </Row>
         <Row>
-          <Col sm={12}>
-            <Row>
-              <h1>Projects</h1>
-            </Row>
-            <Row style={{ margin: "50px 20px" }}>
-              <Col md={4} style={{ margin: "10px 0" }}>
-                <Card style={{ width: "100%", height: "auto" }}>
-                  <Card.Img
-                    variant="top"
-                    src="https://flquenano-blog-uploads.s3.us-east-2.amazonaws.com/portfolio/projects/blog-header.PNG"
-                  />
-                  <Card.Body>
-                    <Card.Title>Blog</Card.Title>
-                    <Card.Text>
-                      <b>[Still in Development]</b>
-                      <br />
-                      Built with ReactJS, NodeJS and MongoDB with Clean Blog as
-                      template.
-                    </Card.Text>
-                    <Row className="text-center">
-                      <Col md={12}>
-                        <ButtonGroup>
-                          <Button
-                            as={Link}
-                            to="/blog"
-                            variant="primary"
-                            style={{ marginLeft: "2px" }}
-                          >
-                            Demo
-                          </Button>
-
-                          <a
-                            href="https://github.com/flquenano/flquenano-blog"
-                            target="_blank"
-                          >
+          <Container>
+            <Col sm={12}>
+              <Row>
+                <h1>Projects</h1>
+              </Row>
+              <Row style={{ margin: "50px 20px" }}>
+                <Col md={4} style={{ margin: "10px 0" }}>
+                  <Card style={{ width: "100%", height: "auto" }}>
+                    <Card.Img
+                      variant="top"
+                      src="https://flquenano-blog-uploads.s3.us-east-2.amazonaws.com/portfolio/projects/blog-header.PNG"
+                    />
+                    <Card.Body>
+                      <Card.Title>Blog</Card.Title>
+                      <Card.Text>
+                        <b>[Still in Development]</b>
+                        <br />
+                        Built with ReactJS, NodeJS and MongoDB with Clean Blog
+                        as template.
+                        <br />
+                        Deployed with Heroku
+                        <br />
+                        AWS S3 for storage
+                      </Card.Text>
+                      <Row className="text-center">
+                        <Col md={12}>
+                          <ButtonGroup>
                             <Button
+                              as={Link}
+                              to="/blog"
                               variant="primary"
                               style={{ marginLeft: "2px" }}
                             >
-                              Code
+                              Demo
                             </Button>
-                          </a>
-                        </ButtonGroup>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Col>
+
+                            <a
+                              href="https://github.com/flquenano/flquenano-blog"
+                              target="_blank"
+                            >
+                              <Button
+                                variant="primary"
+                                style={{ marginLeft: "2px" }}
+                              >
+                                Code
+                              </Button>
+                            </a>
+                          </ButtonGroup>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </Col>
+          </Container>
         </Row>
       </Container>
     </>

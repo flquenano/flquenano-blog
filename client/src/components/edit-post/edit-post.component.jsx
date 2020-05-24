@@ -38,7 +38,8 @@ const AddPost = () => {
       if (location.state === undefined) {
         return history.push("/blog/404");
       }
-      const res = await API.get(`/posts/${location.state.id}`, false); // must be true
+      const res = await API.get(`/posts/${location.state.id}`, false);
+      console.log(res); // must be true
       setForm({
         ...form,
         title: res.title,

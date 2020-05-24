@@ -20,6 +20,12 @@ const Content = () => {
   useEffect(() => {
     const getAll = async () => {
       const res = await API.get(`/posts?page=${pageCtr}&sort`, false);
+      console.log(res.data.count === 0);
+
+      if (res.data.count === 0) {
+        setLoading(false);
+        return;
+      }
 
       if (
         pageCtr * 5 - 5 + res.data.posts.length == res.data.count ||
@@ -60,6 +66,10 @@ const Content = () => {
     </Button>
   );
 
+  const showPosts = posts
+    .slice(1)
+    .map((post, idx) => <ContentItem key={idx} post={post} />);
+
   const getNewerBtn = () => (
     <Button
       className="float-right"
@@ -72,44 +82,44 @@ const Content = () => {
 
   return (
     <>
-      <Header
-        title={
-          <Link
-            className="header-link"
-            to={{
-              pathname: `/blog/posts/${header.title}`,
-              state: { id: header._id }
-            }}
-          >
-            {header.title}
-          </Link>
-        }
-        subTitle={header.subtitle}
-        url={header.image_banner}
-      />
       {loading ? (
         <Spinner />
       ) : (
-        <Container>
-          <br />
-          <Row>
-            <Col
-              lg={10}
-              md={12}
-              className="mx-auto"
-              style={{ minHeight: "80vh", marginBottom: "30px 0" }}
-            >
-              {posts.slice(1).map((post, idx) => (
-                <ContentItem key={idx} post={post} />
-              ))}
+        <>
+          <Header
+            title={
+              <Link
+                className="header-link"
+                to={{
+                  pathname: `/blog/posts/${header.title}`,
+                  state: { id: header._id }
+                }}
+              >
+                {header.title}
+              </Link>
+            }
+            subTitle={header.subtitle}
+            url={header.image_banner}
+          />
+          <Container style={{ marginBottom: "75px" }}>
+            <br />
+            <Row>
+              <Col
+                lg={10}
+                md={12}
+                className="mx-auto"
+                style={{ minHeight: "30vh", marginBottom: "30px 0" }}
+              >
+                {showPosts}
 
-              <div className="clearfix">
-                {showGetOlder ? getOlderBtn() : null}
-                {showGetNewer ? getNewerBtn() : null}
-              </div>
-            </Col>
-          </Row>
-        </Container>
+                <div className="clearfix">
+                  {showGetOlder ? getOlderBtn() : null}
+                  {showGetNewer ? getNewerBtn() : null}
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </>
       )}
     </>
   );

@@ -104,7 +104,7 @@ const Register = () => {
         }).then(function () {
           dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
           Cookies.set("token", res.token);
-          Cookies.set("name", res.user.name);
+          Cookies.set("name", res.data.user.name);
           history.push({
             pathname: "/dashboard"
           });

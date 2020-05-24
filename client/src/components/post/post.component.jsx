@@ -63,6 +63,7 @@ const PostComponent = () => {
                   <div
                     className="article"
                     dangerouslySetInnerHTML={markup()}
+                    style={{ marginBottom: "40px" }}
                   ></div>
                 </Col>
               </Row>

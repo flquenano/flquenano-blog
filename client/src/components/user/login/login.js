@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 const emailSignIn = async ({ email, password }) => {
   try {
     // Default options are marked with *
+    // "/api/v1/user/login"
     const response = await fetch("/api/v1/user/login", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin

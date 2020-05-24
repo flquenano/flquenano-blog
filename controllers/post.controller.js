@@ -6,6 +6,7 @@ exports.create_post = catchAsync(async (req, res) => {
   let post = {
     title: req.body.title,
     content: req.body.content,
+    subtitle: req.body.subtitle,
     user: req.user.id
   };
   if (req.file === undefined) {
@@ -49,7 +50,7 @@ exports.get_posts = catchAsync(async (req, res) => {
     }),
     req.query
   ).paginate();
-  const docs = await features.query.sort({ date_added: -1 });
+  const docs = await features.query.sort({ _id: -1 });
   const cnt = await PostModel.find({ active: true });
   res.status(200).json({
     status: "success",
