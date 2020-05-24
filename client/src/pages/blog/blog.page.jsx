@@ -1,7 +1,7 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import Cookies from "js-cookie";
 
 import Navbar from "../../components/navigation/nav.component";
 import Content from "../../components/content/content.component";
@@ -14,7 +14,7 @@ import Dashboard from "../../components/dashboard/dashboard.component";
 import { NotFound } from "../404/notFound.page";
 import NoticeBar from "../../components/notice-bar/notice-bar.component";
 
-const BlogPage = () => {
+const BlogPage = ({ user }) => {
   const { url } = useRouteMatch();
 
   return (
@@ -49,4 +49,8 @@ const BlogPage = () => {
   );
 };
 
-export default BlogPage;
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(BlogPage);
