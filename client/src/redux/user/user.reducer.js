@@ -8,6 +8,11 @@ const INIT_STATE = {
 
 const userReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
+    case userAction.EMAIL_LOGIN_START:
+    case userAction.REGISTER_START:
+      return {
+        ...state
+      };
     case userAction.LOGIN_SUCCESS:
       return {
         ...state,
@@ -23,7 +28,10 @@ const userReducer = (state = INIT_STATE, action) => {
       };
     case userAction.LOGIN_FAILURE:
     case userAction.REGISTER_FAILURE:
-
+      return {
+        ...state,
+        error: action.payload
+      };
     default:
       return state;
   }

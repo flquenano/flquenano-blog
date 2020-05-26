@@ -14,39 +14,22 @@ import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import emailSignIn from "./login";
-import authContext from "../../../context/store";
+import { createLoadingSelector } from "../../../redux/api/selector";
+import { emailLoginStart } from "../../../redux/user/user.actions";
 
 import "./login.scss";
 
-const LoginComponent = () => {
-  const [loader, setLoader] = useState(false);
-  const [state, dispatch] = useContext(authContext);
+const LoginComponent = ({ login, isLoading }) => {
   const history = useHistory();
   const swal = withReactContent(Swal);
 
-  useEffect(() => {
-    if (state.isLoggedIn) {
-      history.push("/blog/dashboard");
-    }
-  }, []);
-
   const { values, handleChange } = useForm({
-    email: "",
-    password: ""
+    email: "flcq27@gmail.com",
+    password: "flcq0727"
   });
 
   const signIn = async () => {
-    setLoader(true);
-    const res = await emailSignIn(values);
-    setLoader(false);
-    if (res.status) {
-      console.log(res);
-      dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
-      swalSucess();
-    } else {
-      swalFailed();
-    }
+    login({ credentials: values });
   };
 
   const swalSucess = () =>
@@ -118,7 +101,7 @@ const LoginComponent = () => {
       <Row id="login-wrapper" className="justify-content-center">
         <Col lg={8} md={10}>
           <Card className="Card ">
-            <Card.Body>{loader ? spinner() : cardBody()}</Card.Body>
+            <Card.Body>{isLoading ? spinner() : cardBody()}</Card.Body>
           </Card>
         </Col>
       </Row>
@@ -126,4 +109,14 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+const mapDispatchToProps = (dispatch) => ({
+  login: (credentials) => dispatch(emailLoginStart(credentials))
+});
+
+const loadingSelector = createLoadingSelector(["LOGIN"]);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  isLoading: loadingSelector(state)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

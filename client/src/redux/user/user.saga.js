@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { takeLatest, put, all, call } from "redux-saga/effects";
+
 import { userAction } from "./user.types";
 
 import {
@@ -10,7 +11,13 @@ import {
   registerFailure
 } from "./user.actions";
 
-export function* loginWithEmail({ payload: { email, password } }) {
+const api = (url) => fetch(url);
+
+export function* loginWithEmail({
+  payload: {
+    credentials: { email, password }
+  }
+}) {
   try {
     const req = yield fetch("http://localhost:5000/api/v1/user/login", {
       method: "POST",
@@ -24,7 +31,6 @@ export function* loginWithEmail({ payload: { email, password } }) {
       body: JSON.stringify({ email, password })
     });
     const res = yield req.json();
-
     if (req.status !== 200) {
       yield put(loginFailure(res.message));
     }
