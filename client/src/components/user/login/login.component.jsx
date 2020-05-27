@@ -10,49 +10,29 @@ import {
   Button,
   Spinner
 } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import { errorAlert } from "../../Swal/Sweetalert.component";
 
-import { createLoadingSelector } from "../../../redux/api/selector";
+import {
+  createLoadingSelector,
+  createErrorMessageSelector
+} from "../../../redux/api/selector";
 import { emailLoginStart } from "../../../redux/user/user.actions";
 
 import "./login.scss";
 
-const LoginComponent = ({ login, isLoading }) => {
-  const history = useHistory();
-  const swal = withReactContent(Swal);
-
+const LoginComponent = ({ login, isLoading, isError }) => {
   const { values, handleChange } = useForm({
     email: "flcq27@gmail.com",
     password: "flcq0727"
   });
 
+  useEffect(() => {
+    if (isError) errorAlert("Login Failed!", isError);
+  }, [isError]);
+
   const signIn = async () => {
     login({ credentials: values });
   };
-
-  const swalSucess = () =>
-    swal
-      .fire({
-        title: "Login Success!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        allowOutsideClick: false
-      })
-      .then(() => {
-        history.push("/blog/dashboard");
-      });
-
-  const swalFailed = () =>
-    swal.fire({
-      title: "Login Failed!",
-      icon: "error",
-      timer: 2000,
-      showConfirmButton: false,
-      allowOutsideClick: false
-    });
 
   const keyPress = (e) => {
     if (e.keyCode == 13) {
@@ -96,6 +76,7 @@ const LoginComponent = ({ login, isLoading }) => {
       </Form>
     </div>
   );
+
   return (
     <Container fluid className="login-bg">
       <Row id="login-wrapper" className="justify-content-center">
@@ -114,9 +95,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const loadingSelector = createLoadingSelector(["LOGIN"]);
+const errorMessageSelector = createErrorMessageSelector(["LOGIN"]);
+
 const mapStateToProps = (state) => ({
-  user: state.user,
-  isLoading: loadingSelector(state)
+  isLoading: loadingSelector(state),
+  isError: errorMessageSelector(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

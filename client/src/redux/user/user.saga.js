@@ -28,7 +28,7 @@ export function* loginWithEmail({
       },
       redirect: "follow",
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email: "", password: "" })
     });
     const res = yield req.json();
     if (req.status !== 200) {

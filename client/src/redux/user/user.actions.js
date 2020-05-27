@@ -19,6 +19,10 @@ export const loginFailure = (error) => ({
   payload: error
 });
 
+export const loginClear = () => ({
+  type: userAction.LOGIN_CLEAR
+});
+
 export const registerStart = (userInfo) => ({
   type: userAction.REGISTER_START,
   payload: userInfo
