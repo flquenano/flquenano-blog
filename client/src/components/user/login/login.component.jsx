@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useCallback } from "react";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { useForm } from "../../../hooks/form.hook.jsx";
 import {
   Container,
@@ -20,19 +20,28 @@ import { emailLoginStart } from "../../../redux/user/user.actions";
 
 import "./login.scss";
 
-const LoginComponent = ({ login, isLoading, isError }) => {
+const LoginComponent = () => {
+  const dispatch = useDispatch();
+  const loadingSelector = createLoadingSelector(["LOGIN"]);
+  const errorMessageSelector = createErrorMessageSelector(["LOGIN"]);
+  const user = useSelector((state) => ({
+    user: state.user,
+    isLoading: loadingSelector(state),
+    isError: errorMessageSelector(state)
+  }));
+
   const { values, handleChange } = useForm({
     email: "flcq27@gmail.com",
     password: "flcq0727"
   });
 
   useEffect(() => {
-    if (isError) errorAlert("Login Failed!", isError);
-  }, [isError]);
+    if (user.isError) errorAlert("Login Failed!", user.isError);
+  }, [user]);
 
-  const signIn = async () => {
-    login({ credentials: values });
-  };
+  const signIn = useCallback(() => {
+    dispatch(emailLoginStart({ credentials: values }));
+  }, [dispatch]);
 
   const keyPress = (e) => {
     if (e.keyCode == 13) {
@@ -82,7 +91,7 @@ const LoginComponent = ({ login, isLoading, isError }) => {
       <Row id="login-wrapper" className="justify-content-center">
         <Col lg={8} md={10}>
           <Card className="Card ">
-            <Card.Body>{isLoading ? spinner() : cardBody()}</Card.Body>
+            <Card.Body>{user.isLoading ? spinner() : cardBody()}</Card.Body>
           </Card>
         </Col>
       </Row>
@@ -90,16 +99,4 @@ const LoginComponent = ({ login, isLoading, isError }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (credentials) => dispatch(emailLoginStart(credentials))
-});
-
-const loadingSelector = createLoadingSelector(["LOGIN"]);
-const errorMessageSelector = createErrorMessageSelector(["LOGIN"]);
-
-const mapStateToProps = (state) => ({
-  isLoading: loadingSelector(state),
-  isError: errorMessageSelector(state)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
+export default LoginComponent;
