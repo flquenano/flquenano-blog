@@ -25,7 +25,6 @@ const LoginComponent = () => {
   const loadingSelector = createLoadingSelector(["LOGIN"]);
   const errorMessageSelector = createErrorMessageSelector(["LOGIN"]);
   const user = useSelector((state) => ({
-    user: state.user,
     isLoading: loadingSelector(state),
     isError: errorMessageSelector(state)
   }));

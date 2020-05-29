@@ -2,8 +2,7 @@ import { userAction } from "./user.types";
 
 const INIT_STATE = {
   current_user: null,
-  isLoggedIn: false,
-  error: ""
+  isLoggedIn: false
 };
 
 const userReducer = (state = INIT_STATE, action) => {

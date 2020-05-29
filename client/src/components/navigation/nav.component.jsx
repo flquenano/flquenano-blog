@@ -1,36 +1,32 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./navigation.scss";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link, useRouteMatch, useHistory } from "react-router-dom";
-import Cookies from "js-cookie";
-import authContext from "../../context/store";
-
+import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutStart } from "../../redux/user/user.actions";
 const NavigationBar = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const logout = () => {
+    dispatch(logoutStart());
+  };
+
+  const { url } = useRouteMatch();
+
   let MinWidth = 992;
   let previousTop = 0;
 
-  const { url } = useRouteMatch();
-  const history = useHistory();
-
-  const [{ isLoggedIn, name }, dispatch] = useContext(authContext);
   const [cssClasses, setCssClasses] = useState({
     isVisible: true,
     isFixed: true
   });
-
-  const logout = () => {
-    Cookies.remove("token");
-    Cookies.remove("name");
-    dispatch({ type: "LOGOUT" });
-    history.push(`${url}`);
-  };
 
   useEffect(() => {
     window.addEventListener("scroll", scrollListener); // eslint-disable-next-line
     return () => {
       window.removeEventListener("scroll", scrollListener);
     };
-  }, [isLoggedIn]);
+  }, []);
 
   const scrollListener = function () {
     const headerHeight = document.getElementById("mainNav").offsetHeight;
@@ -67,10 +63,6 @@ const NavigationBar = () => {
     }
   };
 
-  const navItems = [
-    { nav: "Home", link: `${url}` },
-    { nav: "Dashboard", link: `${url}/dashboard` }
-  ];
   return (
     <>
       <Navbar

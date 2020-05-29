@@ -13,7 +13,7 @@ import Register from "../../components/user/register/register.component";
 import Dashboard from "../../components/dashboard/dashboard.component";
 import { NotFound } from "../404/notFound.page";
 import NoticeBar from "../../components/notice-bar/notice-bar.component";
-
+import ContentPage from "../blog/content.page";
 const BlogPage = ({ user }) => {
   const { url } = useRouteMatch();
 
@@ -22,7 +22,7 @@ const BlogPage = ({ user }) => {
       <Navbar />
       <Switch>
         <Route exact path={`${url}`}>
-          <Content />
+          <ContentPage />
         </Route>
         <Route exact path={`${url}/posts/create`}>
           <AddPost />

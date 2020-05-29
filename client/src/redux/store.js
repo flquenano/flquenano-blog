@@ -5,10 +5,11 @@ import createSagaMiddleware from "redux-saga";
 
 import rootReducer from "./root-reducer";
 import rootSaga from "./root-saga";
+import mw from "./sampleMiddleware";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [sagaMiddleware, logger];
+const middlewares = [sagaMiddleware, logger, mw];
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 

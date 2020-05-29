@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import { takeLatest, put, all, call } from "redux-saga/effects";
 
 import { userAction } from "./user.types";
+import history from "../../history";
 
 import {
   loginSuccess,
@@ -19,7 +20,7 @@ export function* loginWithEmail({
   }
 }) {
   try {
-    const req = yield fetch("http://localhost:5000/api/v1/user/login", {
+    const req = yield fetch("http://localhost:5001/api/v1/user/login", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -32,21 +33,32 @@ export function* loginWithEmail({
     });
     const res = yield req.json();
     if (req.status !== 200) {
-      yield put(loginFailure(res.message));
+      // yield put(loginFailure(res.message));
+      throw res;
     }
     Cookies.set("token", res.token);
     yield put(
       loginSuccess({ name: res.user.name, privilege: res.user.privilege })
     );
+    yield history.push("/blog/dashboard");
   } catch (error) {
     yield put(loginFailure(error));
   }
+}
+
+export function* logout() {
+  yield put(logoutSuccess());
+  history.push("/blog");
 }
 
 export function* onEmailLoginStart() {
   yield takeLatest(userAction.EMAIL_LOGIN_START, loginWithEmail);
 }
 
+export function* onLogout() {
+  yield takeLatest(userAction.LOGOUT_START, logout);
+}
+
 export function* userSagas() {
-  yield all([call(onEmailLoginStart)]);
+  yield all([call(onEmailLoginStart), call(onLogout)]);
 }

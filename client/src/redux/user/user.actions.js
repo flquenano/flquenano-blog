@@ -5,10 +5,6 @@ export const emailLoginStart = (credentials) => ({
   payload: credentials
 });
 
-export const checkUserSession = () => ({
-  type: userAction.CHECK_USER_SESSION
-});
-
 export const loginSuccess = (user) => ({
   type: userAction.LOGIN_SUCCESS,
   payload: user
@@ -17,10 +13,6 @@ export const loginSuccess = (user) => ({
 export const loginFailure = (error) => ({
   type: userAction.LOGIN_FAILURE,
   payload: error
-});
-
-export const loginClear = () => ({
-  type: userAction.LOGIN_CLEAR
 });
 
 export const registerStart = (userInfo) => ({
@@ -44,4 +36,8 @@ export const logoutStart = () => ({
 
 export const logoutSuccess = () => ({
   type: userAction.LOGOUT_SUCCESS
+});
+
+export const checkUserSession = () => ({
+  type: userAction.CHECK_USER_SESSION
 });

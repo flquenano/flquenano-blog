@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
@@ -8,17 +8,18 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 
+import history from "./history";
 import { store, persistor } from "./redux/store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Router history={history}>
       <React.StrictMode>
         <PersistGate persistor={persistor}>
           <App />
         </PersistGate>
       </React.StrictMode>
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
