@@ -11,12 +11,11 @@ import {
   Spinner
 } from "react-bootstrap";
 import { errorAlert } from "../../Swal/Sweetalert.component";
-
 import {
   createLoadingSelector,
   createErrorMessageSelector
 } from "../../../redux/api/selector";
-import { emailLoginStart } from "../../../redux/user/user.actions";
+import { loginStart } from "../../../redux/user/user.actions";
 
 import "./login.scss";
 
@@ -25,22 +24,24 @@ const LoginComponent = () => {
   const loadingSelector = createLoadingSelector(["LOGIN"]);
   const errorMessageSelector = createErrorMessageSelector(["LOGIN"]);
   const user = useSelector((state) => ({
-    isLoading: loadingSelector(state),
-    isError: errorMessageSelector(state)
+    isLoading: loadingSelector(state.loading),
+    isError: errorMessageSelector(state.error)
   }));
 
   const { values, handleChange } = useForm({
-    email: "flcq27@gmail.com",
-    password: "flcq0727"
+    email: "",
+    password: ""
   });
 
   useEffect(() => {
-    if (user.isError) errorAlert("Login Failed!", user.isError);
-  }, [user]);
+    if (user.isError) {
+      errorAlert("Login Failed!", user.isError);
+    }
+  }, [user.isError]);
 
-  const signIn = useCallback(() => {
-    dispatch(emailLoginStart({ credentials: values }));
-  }, [dispatch]);
+  const signIn = () => {
+    dispatch(loginStart(values));
+  };
 
   const keyPress = (e) => {
     if (e.keyCode == 13) {

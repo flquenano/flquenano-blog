@@ -31,6 +31,7 @@ const send_token = (user, status_code, req, res) => {
 };
 
 exports.register = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const new_user = await UserModel.create(req.body, function (error, doc) {
     if (error || doc === undefined) {
       return next(error);
@@ -40,6 +41,7 @@ exports.register = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res) => {
+  console.log(req.body);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({

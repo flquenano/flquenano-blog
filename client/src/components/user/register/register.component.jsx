@@ -1,21 +1,27 @@
 import React, { useContext } from "react";
+
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import {
+  createErrorMessageSelector,
+  createLoadingSelector
+} from "../../../redux/api/selector";
+import { registerStart } from "../../../redux/user/user.actions";
+
 import * as Yup from "yup";
 import FormBuilder from "../../form/form-builder.component";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import Cookies from "js-cookie";
 import "./register.scss";
 
-import API from "../../../util/fetchAPI.util";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import authContext from "../../../context/store";
-
 const Register = () => {
-  const MySwal = withReactContent(Swal);
-  const history = useHistory();
-  const [state, dispatch] = useContext(authContext);
+  const dispatch = useDispatch();
+  const loadingSelector = createLoadingSelector(["REGISTER"]);
+  const errorSelector = createErrorMessageSelector(["REGISTER"]);
+
+  const registerUtil = useSelector((state) => ({
+    isLoading: loadingSelector(state),
+    isError: errorSelector(state)
+  }));
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -72,51 +78,21 @@ const Register = () => {
   ];
 
   const initialValues = {
-    name: "",
-    email: "",
-    acctName: "",
-    password: "",
-    passwordConfirm: ""
+    name: "sample",
+    email: "sample@gmail.com",
+    acctName: "sampleAcctName",
+    password: "sample123",
+    passwordConfirm: "sample123"
   };
 
-  const register = async (user) => {
-    try {
-      const data = {
-        name: user.name,
-        account_name: user.acctName,
-        email: user.email,
-        password: user.password
-      };
-
-      const res = await API.create(
-        "/user/register",
-        true,
-        JSON.stringify(data),
-        "",
-        true
-      );
-      if (res.status === "success") {
-        MySwal.fire({
-          title: <p>Registration Successful!</p>,
-          icon: "success",
-          timer: 1000,
-          showConfirmButton: false
-        }).then(function () {
-          dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
-          Cookies.set("token", res.token);
-          Cookies.set("name", res.data.user.name);
-          history.push({
-            pathname: "/dashboard"
-          });
-        });
-      } else {
-        MySwal.fire({
-          title: <p>{res.message}</p>,
-          icon: "error",
-          showConfirmButton: true
-        });
-      }
-    } catch (e) {}
+  const register = (user) => {
+    const data = {
+      name: user.name,
+      account_name: user.acctName,
+      email: user.email,
+      password: user.password
+    };
+    dispatch(registerStart(data));
   };
 
   const form = (

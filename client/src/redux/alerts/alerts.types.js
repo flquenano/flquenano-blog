@@ -1,0 +1,5 @@
+export default {
+  INIT_ALERT: "INIT_ALERT",
+  SET_ALERT: "SET_ALERT",
+  REMOVE_ALERT: "REMOVE_ALERT"
+};

@@ -1,7 +1,7 @@
 import { userAction } from "./user.types";
 
-export const emailLoginStart = (credentials) => ({
-  type: userAction.EMAIL_LOGIN_START,
+export const loginStart = (credentials) => ({
+  type: userAction.LOGIN_START,
   payload: credentials
 });
 
