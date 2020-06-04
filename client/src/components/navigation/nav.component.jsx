@@ -4,6 +4,8 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutStart } from "../../redux/user/user.actions";
+import { getPostsStart } from "../../redux/post/post.actions";
+
 const NavigationBar = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -11,6 +13,9 @@ const NavigationBar = () => {
     dispatch(logoutStart());
   };
 
+  const home = () => {
+    dispatch(getPostsStart(1));
+  };
   const { url } = useRouteMatch();
 
   let MinWidth = 992;
@@ -85,7 +90,12 @@ const NavigationBar = () => {
             id="navbarResponsive"
           >
             <Nav>
-              <Nav.Link as={Link} to={url} className="nav-item nav-link">
+              <Nav.Link
+                as={Link}
+                onClick={home}
+                to={url}
+                className="nav-item nav-link"
+              >
                 Home
               </Nav.Link>
               {isLoggedIn ? (

@@ -13,7 +13,7 @@ const td = ({ post, remove }) => (
         <Button
           as={Link}
           to={{
-            pathname: `posts/${post.title.replace(/\s/g, "-")}`,
+            pathname: `posts/${post.title.replace(/\s/g, "-")}-${post._id}`,
             state: { id: post._id }
           }}
           variant="primary"
@@ -25,7 +25,9 @@ const td = ({ post, remove }) => (
         <Button
           as={Link}
           to={{
-            pathname: `posts/edit/${post.title.replace(/\s/g, "-")}`,
+            pathname: `posts/edit/${post.title.replace(/\s/g, "-")}-${
+              post._id
+            }`,
             state: { id: post._id }
           }}
           variant="primary"

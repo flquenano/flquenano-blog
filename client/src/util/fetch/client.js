@@ -12,7 +12,6 @@ async function client(endpoint, { body, header, ...customConfig } = {}) {
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
-
   const config = {
     ...customConfig,
     headers: {
@@ -20,12 +19,15 @@ async function client(endpoint, { body, header, ...customConfig } = {}) {
       ...customConfig.headers
     }
   };
-
   if (body) {
-    config.body = JSON.stringify(body);
+    if (body instanceof FormData) {
+      config.body = body;
+      delete config.headers["content-type"];
+    } else {
+      config.body = JSON.stringify(body);
+    }
   }
-
-  console.log(`${url}/${endpoint}`);
+  console.log(config);
   return await fetch(`${url}/${endpoint}`, config);
 }
 

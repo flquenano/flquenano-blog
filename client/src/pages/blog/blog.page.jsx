@@ -5,8 +5,9 @@ import { Container } from "react-bootstrap";
 
 import Navbar from "../../components/navigation/nav.component";
 import Content from "../../components/content/content.component";
-import Post from "../../components/post/post.component";
-import EditPost from "../../components/edit-post/edit-post.component";
+import Post from "./post.page";
+// import EditPost from "../../components/edit-post/edit-post.component";
+import EditPost from "../blog/edit-post.page";
 import AddPost from "../../components/add-post/add-post.component";
 import Login from "../../components/user/login/login.component";
 import Register from "../../components/user/register/register.component";

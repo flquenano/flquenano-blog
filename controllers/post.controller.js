@@ -97,7 +97,6 @@ exports.edit_posts = catchAsync(async (req, res) => {
   } else {
     delete req.body.image_banner;
   }
-
   const doc = await PostModel.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },

@@ -6,7 +6,7 @@ import {
   createErrorMessageSelector,
   createLoadingSelector
 } from "../../redux/api/selector";
-import { getPostsStart } from "../../redux/post/post.actions";
+import { getPostsStart, getPostCancel } from "../../redux/post/post.actions";
 
 import Content from "../../components/content/content.component";
 import Spinner from "../../components/spinner/spinner.component";
@@ -24,6 +24,9 @@ const ContentPage = () => {
 
   useEffect(() => {
     dispatch(getPostsStart(1));
+    return () => {
+      dispatch(getPostCancel());
+    };
   }, []);
 
   const loadPosts = (page) => {
