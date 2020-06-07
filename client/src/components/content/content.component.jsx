@@ -20,6 +20,12 @@ const Content = () => {
   useEffect(() => {
     const getAll = async () => {
       const res = await API.get(`/posts?page=${pageCtr}&sort`, false);
+      console.log(res.data.count === 0);
+
+      if (res.data.count === 0) {
+        setLoading(false);
+        return;
+      }
 
       if (res.data.count === 0) {
         setLoading(false);

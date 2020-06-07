@@ -18,6 +18,7 @@ import "./add-post.scss";
 const AddPost = () => {
   const history = useHistory();
   const MySwal = withReactContent(Swal);
+  const [{ isLoggedIn }, dispatch] = useContext(authContext);
   const [isLoading, setIsLoading] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [validated, setValidated] = useState(false);
