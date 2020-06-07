@@ -72,3 +72,16 @@ export const getPostFailure = (error) => ({
   type: postAction.GET_POST_FAILURE,
   payload: error
 });
+
+// Add_Post
+export const addPostStart = (post) => ({
+  type: postAction.ADD_POST_START,
+  payload: post
+});
+export const addPostSuccess = () => ({
+  type: postAction.ADD_POST_SUCCESS
+});
+export const addPostFailure = (error) => ({
+  type: postAction.ADD_POST_FAILURE,
+  payload: error
+});

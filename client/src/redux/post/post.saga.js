@@ -19,10 +19,25 @@ import {
   getPostSuccess,
   getPostFailure,
   editPostSuccess,
-  editPostFailure
+  editPostFailure,
+  addPostSuccess,
+  addPostFailure
 } from "./post.actions";
 import { post, get, patch, remove } from "../../util/fetch/fetch.util";
 import history from "../../history";
+
+export function* addPost({ payload }) {
+  try {
+    const { body } = payload;
+    const req = yield post("posts", body);
+    const res = yield req.json();
+    if (!req.ok) throw res;
+    forwardTo(`/blog/posts/${res.title.replace(/\s/g, "-")}-${res.id}`);
+    yield put(addPostSuccess());
+  } catch (error) {
+    yield put(addPostFailure(error));
+  }
+}
 
 export function* getPost({ payload: id }) {
   try {
@@ -101,14 +116,15 @@ export function* editPost({ payload }) {
     const res = yield req.json();
     if (!req.ok) throw res;
     yield put(editPostSuccess());
-    // yield delay(2000);
-    // console.log(res);
-    // forwardTo(`/blog/posts/${res.title.replace(/\s/g, "-")}-${res._id}`);
+    forwardTo(`/blog/posts/${res.title.replace(/\s/g, "-")}-${res._id}`);
   } catch (error) {
     yield put(editPostFailure(error));
   }
 }
 
+export function* watchAddPost() {
+  yield takeLatest(postAction.ADD_POST_START, addPost);
+}
 export function* watchEditPost() {
   yield takeLatest(postAction.EDIT_POST_START, editPost);
 }
@@ -131,7 +147,8 @@ export function* postSagas() {
     call(watchGetMyPosts),
     call(watchRemovePost),
     call(watchGetPost),
-    call(watchEditPost)
+    call(watchEditPost),
+    call(watchAddPost)
   ]);
 }
 
