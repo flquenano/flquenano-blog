@@ -30,7 +30,8 @@ exports.create_post = catchAsync(async (req, res) => {
   }
   res.status(201).json({
     status: "success",
-    id: doc.id
+    id: doc.id,
+    title: doc.title
   });
 });
 
@@ -97,7 +98,6 @@ exports.edit_posts = catchAsync(async (req, res) => {
   } else {
     delete req.body.image_banner;
   }
-
   const doc = await PostModel.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },

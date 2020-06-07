@@ -12,7 +12,7 @@ import Footer from "./components/footer/footer.component";
 function App() {
   const useAuthState = useReducer(authReducer, initialAuthState);
   return (
-    <div className="App" as={Container}>
+    <div className="App">
       <Switch>
         <Route exact path="/">
           <HomePage />

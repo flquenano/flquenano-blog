@@ -8,6 +8,15 @@
 .rdw-embedded-modal {
   height: auto !important;
 }
+.rdw-editor-wrapper {
+  background: #fff !important;
+}
+.rdw-image-imagewrapper {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
 .nav-bg {
   width: 100%;
   height: 50px;

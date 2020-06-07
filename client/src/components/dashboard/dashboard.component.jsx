@@ -1,15 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
-import Cookies from "js-cookie";
+
+//Redux
+import { createLoadingSelector } from "../../redux/api/selector";
+import {
+  getMyPostsStart,
+  removePostStart
+} from "../../redux/post/post.actions";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 import THead from "./table/th.component";
 import TData from "./table/td.component";
 
-import API from "../../util/fetchAPI.util";
-import authContext from "../../context/store";
 import Spinner from "../spinner/spinner.component";
 import { NavBackground } from "../navigation/nav.background";
 
@@ -17,31 +23,24 @@ import "./dashboard.scss";
 
 //Consume Context for Name Display
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const loadingSelector = createLoadingSelector([
+    "GET_MY_POSTS",
+    "REMOVE_POST"
+  ]);
+  const data = useSelector((state) => ({
+    isLoading: loadingSelector(state),
+    post: state.post
+  }));
+
   const history = useHistory();
   const swal = withReactContent(Swal);
-  const [{ isLoggedIn }, dispatch] = useContext(authContext);
-  const [loading, setLoading] = useState(true);
-  const [delPost, setDeletePost] = useState(1);
-  const [posts, setPosts] = useState({});
+
   const theadLabels = ["Title", "Date Added", "Options"];
 
   useEffect(() => {
-    if (Cookies.get("token") === undefined) {
-      return history.push("/blog/login");
-    } else {
-      dispatch({ type: "LOGIN", payload: { name: Cookies.get("name") } });
-    }
-    setLoading(true);
-    const getAll = async () => {
-      const res = await API.get(`/posts/my-posts`, true);
-      if (res.code === 401) {
-        return sessionExpired();
-      }
-      setPosts(res.data.posts);
-      setLoading(false);
-    };
-    getAll();
-  }, [delPost]);
+    dispatch(getMyPostsStart());
+  }, []);
 
   const sessionExpired = () =>
     swal
@@ -70,39 +69,25 @@ const Dashboard = () => {
       })
       .then((result) => {
         if (result.value) {
-          const deletePost = async () => {
-            const res = await API.remove(`/posts/${id}`, true);
-            if (res.status === "success") {
-              setDeletePost(delPost + 1);
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            } else {
-              Swal.fire(
-                "Post not Deleted!",
-                "Your file has not been deleted.",
-                "error"
-              );
-            }
-          };
-          deletePost();
+          dispatch(removePostStart(id));
         }
       });
   };
 
   const myPosts = () =>
-    posts.map((post, idx) => (
+    data.post.posts.map((post, idx) => (
       <TData key={idx} post={post} remove={deletePost} />
     ));
 
   return (
     <>
       <NavBackground />
-      {loading ? (
+      {data.isLoading ? (
         <Spinner />
       ) : (
         <Container className="dashboard" style={{ minHeight: "80vh" }}>
           <br />
           <br />
-
           <Row>
             <Col>
               <div

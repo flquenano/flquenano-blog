@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { useForm } from "../../../hooks/form.hook.jsx";
 import {
   Container,
@@ -9,66 +10,38 @@ import {
   Button,
   Spinner
 } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
-import emailSignIn from "./login";
-import authContext from "../../../context/store";
+import { errorAlert } from "../../Swal/Sweetalert.component";
+import {
+  createLoadingSelector,
+  createErrorMessageSelector
+} from "../../../redux/api/selector";
+import { loginStart } from "../../../redux/user/user.actions";
 
 import "./login.scss";
 
 const LoginComponent = () => {
-  const [loader, setLoader] = useState(false);
-  const [state, dispatch] = useContext(authContext);
-  const history = useHistory();
-  const swal = withReactContent(Swal);
-
-  useEffect(() => {
-    if (state.isLoggedIn) {
-      history.push("/blog/dashboard");
-    }
-  }, []);
+  const dispatch = useDispatch();
+  const loadingSelector = createLoadingSelector(["LOGIN"]);
+  const errorMessageSelector = createErrorMessageSelector(["LOGIN"]);
+  const user = useSelector((state) => ({
+    isLoading: loadingSelector(state.loading),
+    isError: errorMessageSelector(state.error)
+  }));
 
   const { values, handleChange } = useForm({
     email: "",
     password: ""
   });
 
-  const signIn = async () => {
-    setLoader(true);
-    const res = await emailSignIn(values);
-    setLoader(false);
-    if (res.status) {
-      console.log(res);
-      dispatch({ type: "LOGIN", payload: { name: res.data.user.name } });
-      swalSucess();
-    } else {
-      swalFailed();
+  useEffect(() => {
+    if (user.isError) {
+      errorAlert("Login Failed!", user.isError);
     }
+  }, [user.isError]);
+
+  const signIn = () => {
+    dispatch(loginStart(values));
   };
-
-  const swalSucess = () =>
-    swal
-      .fire({
-        title: "Login Success!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        allowOutsideClick: false
-      })
-      .then(() => {
-        history.push("/blog/dashboard");
-      });
-
-  const swalFailed = () =>
-    swal.fire({
-      title: "Login Failed!",
-      icon: "error",
-      timer: 2000,
-      showConfirmButton: false,
-      allowOutsideClick: false
-    });
 
   const keyPress = (e) => {
     if (e.keyCode == 13) {
@@ -112,12 +85,13 @@ const LoginComponent = () => {
       </Form>
     </div>
   );
+
   return (
     <Container fluid className="login-bg">
       <Row id="login-wrapper" className="justify-content-center">
         <Col lg={8} md={10}>
           <Card className="Card ">
-            <Card.Body>{loader ? spinner() : cardBody()}</Card.Body>
+            <Card.Body>{user.isLoading ? spinner() : cardBody()}</Card.Body>
           </Card>
         </Col>
       </Row>

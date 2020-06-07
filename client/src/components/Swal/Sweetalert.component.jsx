@@ -18,4 +18,11 @@ const SweetAlert = () => {
   });
 };
 
+export const errorAlert = (title, text) =>
+  MySwal.fire({
+    title: title,
+    text: text,
+    icon: "error"
+  });
+
 export default SweetAlert;
